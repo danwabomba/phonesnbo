@@ -372,11 +372,13 @@ function renderGrid(){
   }
   const drawModel = m || model('ip16p') || C.models[0];
   $('#grid').innerHTML = show.map(p => {
-    const col = colorOf(p, state.color[p.id] || (p.colors.find(c => !c.soldOut) || p.colors[0]).id);
-    const allOut = p.colors.every(c => c.soldOut);
+    const left = c => m ? CATALOG.available(p, m.id, c.id) : (c.soldOut || p.soldOut ? 0 : Infinity);
+    const col = colorOf(p, state.color[p.id] || (p.colors.find(c => left(c) > 0) || p.colors[0]).id);
+    const allOut = p.colors.every(c => left(c) <= 0), colLeft = left(col);
+    const colOut = colLeft <= 0;
     const btn = allOut ? `<button type="button" class="add ghost" disabled>Sold out</button>`
       : !m ? `<button type="button" class="add ghost" data-add="${p.id}">Pick your iPhone first</button>`
-      : col.soldOut ? `<button type="button" class="add ghost" disabled>${col.n} is sold out</button>`
+      : colOut ? `<button type="button" class="add ghost" disabled>${col.n} is sold out</button>`
       : `<button type="button" class="add" data-add="${p.id}">Add to cart</button>`;
     return `<article class="prod${allOut?' out':''}" style="--stage:${stageBg(col.c)}">
       <div class="stage">${allOut ? `<span class="badge off">Sold out</span>` : p.tag ? `<span class="badge">${esc(p.tag)}</span>` : ''}<span class="price"><small>${C.currency}</small>${p.price.toLocaleString('en-KE')}</span>${caseSVG(p, drawModel, col, 230)}</div>
@@ -384,8 +386,8 @@ function renderGrid(){
         <h3>${esc(p.name)}</h3>
         <p class="desc">${esc(p.desc)}</p>
         <div class="swatches" role="group" aria-label="Colour">
-          ${p.colors.map(c => `<button type="button" class="sw${c.soldOut?' so':''}" style="background:${c.c}" data-p="${p.id}" data-c="${c.id}" aria-pressed="${c.id===col.id}" aria-label="${esc(c.n)}${c.soldOut?' (sold out)':''}"></button>`).join('')}
-          <span class="swname">${esc(col.n)}${col.soldOut ? ' · sold out' : ''}</span>
+          ${p.colors.map(c => { const out = left(c) <= 0; return `<button type="button" class="sw${out?' so':''}" style="background:${c.c}" data-p="${p.id}" data-c="${c.id}" aria-pressed="${c.id===col.id}" aria-label="${esc(c.n)}${out?' (sold out)':''}"></button>`; }).join('')}
+          <span class="swname">${esc(col.n)}${colOut ? ' · sold out' : colLeft <= 3 ? ` · only ${colLeft} left` : ''}</span>
         </div>
         <div class="fits ${m?'':'none'}">${m ? `Fits ${m.name}` : (p.fits==='all' ? 'Fits every iPhone listed' : `Fits ${p.fits.length} iPhone models`)}</div>
         ${btn}
@@ -397,11 +399,13 @@ function renderGrid(){
 const saveCart = () => { store.set('pnbo_cart2', state.cart); renderCart(); };
 function addToCart(pid){
   const p = product(pid), m = model(state.model);
-  const col = colorOf(p, state.color[pid] || (p.colors.find(c => !c.soldOut) || p.colors[0]).id);
-  if (col.soldOut) return toast(`${col.n} is sold out`);
+  const col = colorOf(p, state.color[pid] || (p.colors.find(c => CATALOG.available(p, m.id, c.id) > 0) || p.colors[0]).id);
+  const left = CATALOG.available(p, m.id, col.id);
+  if (left <= 0) return toast(`${col.n} is sold out for ${m.name}`);
   const key = `${pid}|${m.id}|${col.id}`;
   const ex = state.cart.find(l => l.key === key);
-  if (ex) ex.qty = Math.min(ex.qty + 1, 20); else state.cart.push({ key, pid, mid:m.id, cid:col.id, qty:1 });
+  if (ex && ex.qty >= Math.min(left, 20)) return toast(left < 20 ? `Only ${left} left for ${m.name}` : 'That’s the most per order');
+  if (ex) ex.qty++; else state.cart.push({ key, pid, mid:m.id, cid:col.id, qty:1 });
   state.placed = null; saveCart(); toast(`Added ${p.name} for ${m.name}`);
 }
 function cartLines(){
@@ -409,7 +413,8 @@ function cartLines(){
     const p = product(l.pid), m = model(l.mid);
     if (!p || !m) return null;
     const col = p.colors.find(c => c.id === l.cid); if (!col) return null;
-    return { ...l, p, m, col, unit:p.price };
+    const left = CATALOG.available(p, m.id, col.id);
+    return { ...l, p, m, col, unit:p.price, left, gone: left <= 0, over: left > 0 && l.qty > left };
   }).filter(Boolean);
 }
 function deliveryText(zone){
@@ -432,10 +437,10 @@ function renderCart(){
   const sub = lines.reduce((a,l) => a + l.unit*l.qty, 0);
   const f = store.get('pnbo_form', {});
   const zone = C.zones.find(z => z.id === f.zone);
-  const anyOut = lines.some(l => l.col.soldOut || l.p.soldOut);
-  $('#drBody').innerHTML = lines.map(l => `<div class="line${l.col.soldOut?' gone':''}">
+  const anyOut = lines.some(l => l.gone || l.over);
+  $('#drBody').innerHTML = lines.map(l => `<div class="line${l.gone?' gone':''}">
       <div class="th">${caseSVG(l.p, l.m, l.col, 60)}</div>
-      <div><b>${esc(l.p.name)}</b><small>${esc(l.m.name)} · ${esc(l.col.n)}${l.col.soldOut?' · <em>sold out</em>':''}</small>
+      <div><b>${esc(l.p.name)}</b><small>${esc(l.m.name)} · ${esc(l.col.n)}${l.gone?' · <em>sold out</em>':l.over?` · <em>only ${l.left} left</em>`:''}</small>
         <div class="qty"><button type="button" data-dec="${l.key}" aria-label="One less">−</button><span>${l.qty}</span><button type="button" data-inc="${l.key}" aria-label="One more">+</button></div></div>
       <div class="amt">${fmt(l.unit*l.qty)}<button type="button" class="rm" data-rm="${l.key}">Remove</button></div>
     </div>`).join('') + `
@@ -450,7 +455,7 @@ function renderCart(){
       </select><span class="eta" id="eta">${esc(deliveryText(zone))}</span></label>
       <label class="f">Exact location<input name="location" placeholder="Building, street or landmark" value="${esc(f.location)}" required></label>
       <label class="f">Note for the rider (optional)<textarea name="note" placeholder="Gate code, best time to call…">${esc(f.note)}</textarea></label>
-      <div class="err" id="formErr" aria-live="polite">${anyOut ? 'Something in your cart is sold out. Remove it to continue.' : ''}</div>
+      <div class="err" id="formErr" aria-live="polite">${anyOut ? 'Something in your cart is sold out or low. Remove it or lower the quantity to continue.' : ''}</div>
     </form>`;
   $('#totals').innerHTML = `
     <div class="row"><span>Cases</span><span>${fmt(sub)}</span></div>
@@ -484,7 +489,7 @@ async function placeOrder(form){
   if (state.busy) return;
   const d = Object.fromEntries(new FormData(form));
   const lines = cartLines();
-  if (lines.some(l => l.col.soldOut)) { $('#formErr').textContent = 'Something in your cart is sold out. Remove it to continue.'; return; }
+  if (lines.some(l => l.gone || l.over)) { $('#formErr').textContent = 'Something in your cart is sold out or low. Remove it or lower the quantity to continue.'; return; }
   const err = validate(d); if (err){ $('#formErr').textContent = err; return; }
   const payload = { ...d, items: lines.map(l => ({ pid:l.pid, mid:l.mid, cid:l.cid, qty:l.qty })) };
   state.busy = true; renderCart();
@@ -493,7 +498,7 @@ async function placeOrder(form){
     try{
       const r = await fetch('/api/orders', { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(payload) });
       const j = await r.json().catch(() => ({}));
-      if (r.ok) order = j.order; else msg = j.error || 'Your order didn’t go through. Try again.';
+      if (r.ok) order = j.order; else { msg = j.error || 'Your order didn’t go through. Try again.'; await refreshCatalog(); }
     }catch(e){ msg = 'No connection. Check your internet and try again.'; }
   } else {
     const zone = C.zones.find(z => z.id === d.zone), del = CATALOG.deliveryFor(new Date(), C.settings, zone);
@@ -506,6 +511,7 @@ async function placeOrder(form){
   state.placed = order; state.cart = []; store.set('pnbo_cart2', []);
   const f = store.get('pnbo_form', {}); store.set('pnbo_form', { name:f.name, phone:f.phone, zone:f.zone, location:f.location });
   renderCart(); $('#drawer .dr-body').scrollTop = 0;
+  if (LIVE) refreshCatalog();
 }
 
 /* ---------- ui plumbing ---------- */
@@ -536,7 +542,7 @@ document.addEventListener('click', e => {
   const k = t.dataset.inc || t.dataset.dec || t.dataset.rm;
   if (k){
     const l = state.cart.find(x => x.key === k); if (!l) return;
-    if (t.dataset.inc) l.qty = Math.min(l.qty + 1, 20);
+    if (t.dataset.inc){ const cl = cartLines().find(x => x.key === k); const cap = Math.min(20, cl ? cl.left : 20); if (l.qty >= cap) { toast(cap < 20 ? `Only ${cap} left` : 'That’s the most per order'); return; } l.qty++; }
     else if (t.dataset.dec) l.qty--;
     if (t.dataset.rm || l.qty < 1) state.cart = state.cart.filter(x => x.key !== k);
     saveCart();
@@ -556,6 +562,9 @@ document.addEventListener('change', e => {
 });
 document.addEventListener('submit', e => { if (e.target.id==='checkout'){ e.preventDefault(); placeOrder(e.target); } });
 
+async function refreshCatalog(){
+  try{ const r = await fetch('/api/catalog', { cache:'no-store' }); if (r.ok) { Object.assign(C, await r.json()); renderGrid(); } }catch(e){}
+}
 async function boot(){
   let data = null;
   try{

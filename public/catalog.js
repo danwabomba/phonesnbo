@@ -72,26 +72,50 @@
     ],
   };
 
-  /* Apply the admin's saved settings (prices, stock, fees) on top of the catalog. */
-  CATALOG.apply = function (settings) {
-    const s = settings || {};
-    const out = JSON.parse(JSON.stringify({ currency: CATALOG.currency, zones: CATALOG.zones, models: CATALOG.models, products: CATALOG.products }));
+  /* Build what the shop sees from the saved catalog (products + models) and settings (fees, cutoff…).
+     `data` is the editable catalog saved by the dashboard; falls back to the starting catalog above. */
+  CATALOG.build = function (data, settings) {
+    const s = settings || {}, d = data || CATALOG.seed(s);
+    const out = JSON.parse(JSON.stringify({ currency: CATALOG.currency, zones: CATALOG.zones, models: d.models, products: d.products }));
     out.settings = Object.assign({}, CATALOG.defaults, {
       whatsapp: s.whatsapp || CATALOG.defaults.whatsapp,
       cutoffHour: Number.isFinite(s.cutoffHour) ? s.cutoffHour : CATALOG.defaults.cutoffHour,
       deliveryDays: Array.isArray(s.deliveryDays) ? s.deliveryDays : CATALOG.defaults.deliveryDays,
     });
-    const prices = s.prices || {}, hidden = s.hidden || {}, soldOut = s.soldOut || {};
-    const fees = s.zoneFees || {}, zoneOff = s.zoneOff || {}, hiddenModels = s.hiddenModels || {};
-    out.products = out.products.filter(p => !hidden[p.id]).map(p => {
-      if (Number.isFinite(prices[p.id])) p.price = prices[p.id];
-      p.soldOut = !!soldOut[p.id];
-      p.colors.forEach(c => { c.soldOut = p.soldOut || !!soldOut[p.id + ':' + c.id]; });
+    const fees = s.zoneFees || {}, zoneOff = s.zoneOff || {};
+    out.models = out.models.filter(m => !m.hidden);
+    const live = new Set(out.models.map(m => m.id));
+    out.products = out.products.filter(p => p.active !== false && p.colors.length).map(p => {
+      if (Array.isArray(p.fits)) p.fits = p.fits.filter(id => live.has(id));
+      p.colors.forEach(c => { c.soldOut = !!(p.soldOut || c.soldOut); });
+      if (!p.trackStock) delete p.stock;
       return p;
-    });
-    out.models = out.models.filter(m => !hiddenModels[m.id]);
+    }).filter(p => p.fits === 'all' || p.fits.length);
     out.zones = out.zones.filter(z => !zoneOff[z.id]).map(z => (Number.isFinite(fees[z.id]) ? Object.assign(z, { fee: fees[z.id] }) : z));
     return out;
+  };
+  /* Kept for older callers */
+  CATALOG.apply = settings => CATALOG.build(null, settings);
+
+  /* The starting editable catalog, with any older dashboard changes (prices, sold out, hidden) folded in. */
+  CATALOG.seed = function (settings) {
+    const s = settings || {}, prices = s.prices || {}, hidden = s.hidden || {}, soldOut = s.soldOut || {}, hm = s.hiddenModels || {};
+    const d = JSON.parse(JSON.stringify({ models: CATALOG.models, products: CATALOG.products }));
+    d.models.forEach(m => { if (hm[m.id]) m.hidden = true; });
+    d.products.forEach(p => {
+      if (Number.isFinite(prices[p.id])) p.price = prices[p.id];
+      p.active = !hidden[p.id]; p.soldOut = !!soldOut[p.id]; p.trackStock = false; p.stock = {};
+      p.colors.forEach(c => { c.soldOut = !!soldOut[p.id + ':' + c.id]; });
+    });
+    return d;
+  };
+
+  /* How many of this case (for this iPhone, in this colour) can be ordered. Infinity = not counting stock. */
+  CATALOG.available = function (p, mid, cid) {
+    const c = p.colors.find(x => x.id === cid);
+    if (!c || p.soldOut || c.soldOut) return 0;
+    if (!p.trackStock) return Infinity;
+    return Math.max(0, (p.stock || {})[mid + ':' + cid] || 0);
   };
 
   /* When will an order placed at `date` be delivered? Uses Nairobi time (UTC+3, no DST). */

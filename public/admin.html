@@ -59,7 +59,7 @@ main{padding:28px 32px 60px;min-width:0}
 .btn.danger{color:var(--danger)}
 .btn:disabled{opacity:.5;cursor:not-allowed}
 input.in,select.in,textarea.in{border:1px solid var(--line);border-radius:10px;padding:9px 11px;background:#fff;width:100%}
-label.f{display:grid;gap:5px;font-weight:600;font-size:14px}
+.f{display:grid;gap:5px;font-weight:600;font-size:14px}
 .err{color:var(--danger);font-size:13px;min-height:1em}
 .status{display:inline-block;border-radius:999px;padding:3px 10px;font-size:12.5px;font-weight:700;white-space:nowrap}
 .s-new{background:var(--new-bg);color:var(--new)}
@@ -164,9 +164,76 @@ body.dopen .drawer{transform:none}
 .zone .fee{display:flex;align-items:center;gap:6px}
 .days{display:flex;gap:6px;flex-wrap:wrap}
 .days label{border:1px solid var(--line);border-radius:999px;padding:6px 12px;font-size:13.5px;font-weight:600;cursor:pointer;background:#fff}
-.days input{display:none}
+.days input{position:absolute;opacity:0;width:1px;height:1px;pointer-events:none}
+.days label{position:relative}
+.days label:has(input:focus-visible){outline:3px solid var(--blue);outline-offset:2px}
 .days label:has(input:checked){background:var(--ink);color:#fff;border-color:var(--ink)}
 .set{padding:18px;display:grid;gap:14px;max-width:560px}
+
+
+/* catalog screens */
+.plist{overflow:hidden}
+.prow{display:grid;grid-template-columns:64px 1fr 150px 110px auto;gap:16px;align-items:center;padding:12px 16px;border-top:1px solid var(--line)}
+.prow:first-child{border-top:0}
+.pthumb{width:64px;height:64px;border-radius:12px;background:#F2F4F6;display:grid;place-items:center;overflow:hidden}
+.pthumb img{max-width:100%;max-height:100%;object-fit:contain}
+.dots{display:flex;flex-wrap:wrap;gap:3px;width:40px;justify-content:center}
+.dot{display:inline-block;width:16px;height:16px;border-radius:50%;box-shadow:inset 0 0 0 1px rgba(0,0,0,.12);vertical-align:-3px}
+.pinfo .muted{font-size:13.5px}
+.pstock{font-size:14px}
+.warn{color:var(--danger);font-weight:600;font-size:13px}
+.pacts{display:flex;gap:6px;align-items:center;justify-content:flex-end}
+.icon{width:32px;height:32px;border:1px solid var(--line);border-radius:8px;background:#fff;font-weight:700}
+.icon:disabled{opacity:.35;cursor:default}
+.editor{display:grid;gap:14px;max-width:820px}
+.set.wide{max-width:none}
+.row3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
+.colours-ed{display:grid;gap:10px}
+.crow{display:grid;grid-template-columns:72px 1fr;gap:14px;align-items:center;border:1px solid var(--line);border-radius:12px;padding:10px}
+.cimg{width:72px;height:72px;border-radius:10px;background:#F2F4F6;display:grid;place-items:center;overflow:hidden}
+.cimg img{max-width:100%;max-height:100%;object-fit:contain}
+.cimg span{width:34px;height:60px;border-radius:8px;box-shadow:inset 0 0 0 1px rgba(0,0,0,.12)}
+.cmain{display:grid;gap:8px}
+.cline{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.cline input[type=color]{width:44px;height:40px;border:1px solid var(--line);border-radius:10px;padding:3px;background:#fff;cursor:pointer;flex:none}
+.cline .in{flex:1;min-width:140px}
+.cline.small .btn{padding:6px 11px;font-size:13px}
+.upl{cursor:pointer}
+.mchecks{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:6px}
+.mcheck{display:flex;gap:8px;align-items:center;font-size:14px;padding:6px 8px;border:1px solid var(--line);border-radius:8px;cursor:pointer}
+.days label:has(input[type=radio]:checked){background:var(--ink);color:#fff;border-color:var(--ink)}
+.actions{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.btn.big{padding:11px 18px;font-size:15px}
+.btn.danger-solid{background:var(--danger);border-color:var(--danger);color:#fff}
+.stock-wrap{padding:0;overflow:hidden}
+.stock-tools{display:flex;gap:8px;align-items:center;padding:12px 16px;border-bottom:1px solid var(--line);flex-wrap:wrap;font-size:14px}
+.stock-scroll{overflow-x:auto}
+table.stock{border-collapse:collapse;width:100%;min-width:480px}
+table.stock th,table.stock td{padding:7px 10px;border-bottom:1px solid var(--line);text-align:center;font-size:14px;white-space:nowrap}
+table.stock thead th{font-weight:600;color:var(--muted);background:#FAFBFC}
+table.stock tbody th,table.stock tfoot th{text-align:left;font-weight:600}
+table.stock .qty{width:72px;text-align:center;padding:6px}
+table.stock .qty.zero{background:#FDECEA;border-color:#F3C2BD}
+table.stock .qty.low{background:#FFF4DC;border-color:#F2D28D}
+table.stock .tot{font-weight:700}
+table.stock tfoot td,table.stock tfoot th{background:#FAFBFC;border-bottom:0}
+.mform{margin-bottom:14px}
+.mimg{width:56px;height:56px;border-radius:10px;background:#F2F4F6;display:grid;place-items:center;overflow:hidden}
+.mimg img{max-width:100%;max-height:100%}
+.mrow{grid-template-columns:64px 1fr 130px auto}
+.warnpill{background:var(--danger)!important}
+.modal{position:fixed;inset:0;background:rgba(21,24,28,.45);z-index:80;display:grid;place-items:center;padding:20px}
+.mbox{background:#fff;border-radius:16px;padding:22px;width:min(420px,100%);display:grid;gap:14px}
+.mbox p{margin:0;font-size:16px}
+.mbox .actions{justify-content:flex-end}
+@media (max-width:760px){
+  .prow,.mrow{grid-template-columns:56px 1fr;gap:8px 12px}
+  .prow .pstock,.prow>div:nth-child(4){grid-column:2}
+  .pacts{grid-column:1/-1;justify-content:flex-start;flex-wrap:wrap}
+  .row3{grid-template-columns:1fr}
+  .crow{grid-template-columns:56px 1fr}
+  .cimg{width:56px;height:56px}
+}
 
 @media (max-width:980px){
   .stats{grid-template-columns:repeat(2,1fr)}
@@ -211,6 +278,8 @@ body.dopen .drawer{transform:none}
       <button data-view="overview">Overview</button>
       <button data-view="orders">Orders <span class="pill" id="newPill"></span></button>
       <button data-view="products">Products</button>
+      <button data-view="stock">Stock <span class="pill warnpill hidden" id="lowPill"></span></button>
+      <button data-view="models">iPhone models</button>
       <button data-view="delivery">Delivery</button>
       <button data-view="settings">Settings</button>
     </nav>
@@ -228,6 +297,9 @@ body.dopen .drawer{transform:none}
   <div class="dhead"><h2 id="dTitle">Order</h2><button class="x" id="dClose" aria-label="Close">×</button></div>
   <div class="dbody" id="dBody"></div>
 </aside>
+<div class="modal hidden" id="modal" role="dialog" aria-modal="true" aria-labelledby="modalMsg">
+  <div class="mbox"><p id="modalMsg"></p><div class="actions"><button class="btn" id="modalNo">Keep it</button><button class="btn danger-solid" id="modalOk">Delete</button></div></div>
+</div>
 <div class="toast" id="toast" role="status"></div>
 
 <script src="catalog.js"></script>
@@ -248,7 +320,8 @@ function dayLabel(iso){
 const phoneIntl = p => '254' + String(p).replace(/^0/, '');
 
 const S = { view: (location.hash || '#overview').slice(1), orders: [], settings: {}, base: null, demo: false,
-  filter: 'open', when: 'all', q: '', openId: null, draft: null, dirty: false, lastNewCount: null };
+  filter: 'open', when: 'all', q: '', openId: null, draft: null, dirty: false, lastNewCount: null,
+  catalog: null, edit: null, stockId: null, sdraft: null, medit: null };
 
 /* ---------- API (with a sample-data preview when there's no server) ---------- */
 async function call(method, url, body){
@@ -283,11 +356,41 @@ function demoOrders(){
 }
 let DEMO = null;
 function demoApi(method, url, body){
-  DEMO = DEMO || { orders: demoOrders(), settings: {} };
+  DEMO = DEMO || { orders: demoOrders(), settings: {}, catalog: (() => { const c = CATALOG.seed({}); const r = c.products.find(p => p.id === 'rugged');
+    r.trackStock = true; c.models.forEach((m,i) => r.colors.forEach((col,j) => { r.stock[m.id+':'+col.id] = (i*3 + j*5) % 7; })); return c; })() };
+  const C = DEMO.catalog, ok = x => JSON.parse(JSON.stringify(x));
+  const sl = (n, taken) => { let b = String(n||'item').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'') || 'item', id = b, k = 2; while (taken.includes(id)) id = b + '-' + k++; return id; };
   if (url === '/api/admin/orders') return { orders: DEMO.orders };
-  if (url === '/api/admin/settings' && method === 'GET') return { settings: DEMO.settings, base: { zones: CATALOG.zones, models: CATALOG.models, products: CATALOG.products, defaults: CATALOG.defaults } };
+  if (url === '/api/admin/settings' && method === 'GET') return { settings: DEMO.settings, base: { zones: CATALOG.zones, defaults: CATALOG.defaults } };
   if (url === '/api/admin/settings' && method === 'PUT') { DEMO.settings = body; return { settings: body }; }
-  const m = url.match(/\/api\/admin\/orders\/(.+)$/);
+  if (url === '/api/admin/catalog') return { catalog: ok(C) };
+  if (url === '/api/admin/upload') return { url: body.dataUrl };
+  if (url === '/api/admin/products' && method === 'POST') {
+    if (!String(body.name||'').trim()) throw new Error('Give the case a name.');
+    if (!(body.price >= 0)) throw new Error('Enter a price in KES.');
+    const p = Object.assign(ok(body), { id: sl(body.name, C.products.map(x => x.id)), trackStock:false, stock:{} });
+    p.colors.forEach((c,i) => { c.id = c.id || sl(c.n, p.colors.slice(0,i).map(x => x.id)); });
+    C.products.push(p); return { product: p, catalog: ok(C) };
+  }
+  let m = url.match(/\/api\/admin\/products\/([\w-]+)(\/stock|\/move)?$/);
+  if (m) { const i = C.products.findIndex(x => x.id === m[1]), cur = C.products[i];
+    if (!m[2] && method === 'PUT') { const p = Object.assign(ok(body), { id: cur.id, trackStock: cur.trackStock, stock: cur.stock });
+      p.colors.forEach((c,k) => { c.id = c.id || sl(c.n, p.colors.filter((_,j) => j !== k).map(x => x.id)); }); C.products[i] = p; return { product: p, catalog: ok(C) }; }
+    if (!m[2] && method === 'DELETE') { C.products.splice(i,1); return { catalog: ok(C) }; }
+    if (m[2] === '/stock') { cur.trackStock = body.trackStock; cur.stock = body.stock; return { product: cur, catalog: ok(C) }; }
+    if (m[2] === '/move') { const j = i + (body.dir === 'up' ? -1 : 1); C.products.splice(i,1); C.products.splice(j,0,cur); return { catalog: ok(C) }; }
+  }
+  if (url === '/api/admin/models' && method === 'POST') {
+    if (!String(body.name||'').trim() || !(body.h >= 100 && body.w >= 50)) throw new Error('Add a name, and height 100–200 mm and width 50–100 mm.');
+    C.models.unshift(Object.assign(ok(body), { id: sl(body.name, C.models.map(x => x.id)), h:+body.h, w:+body.w })); return { catalog: ok(C) };
+  }
+  m = url.match(/\/api\/admin\/models\/([\w-]+)(\/move)?$/);
+  if (m) { const i = C.models.findIndex(x => x.id === m[1]), cur = C.models[i];
+    if (!m[2] && method === 'PUT') { C.models[i] = Object.assign(ok(body), { id: cur.id, h:+body.h, w:+body.w }); return { catalog: ok(C) }; }
+    if (!m[2] && method === 'DELETE') { C.models.splice(i,1); C.products.forEach(p => { if (Array.isArray(p.fits)) p.fits = p.fits.filter(x => x !== cur.id); }); return { catalog: ok(C) }; }
+    if (m[2]) { const j = i + (body.dir === 'up' ? -1 : 1); C.models.splice(i,1); C.models.splice(j,0,cur); return { catalog: ok(C) }; }
+  }
+  m = url.match(/\/api\/admin\/orders\/(.+)$/);
   if (m) { const o = DEMO.orders.find(x => x.id === m[1]);
     if (body.status && body.status !== o.status) { o.status = body.status; o.history.push({ at:new Date().toISOString(), status:body.status }); }
     ['paid','payMethod','adminNote'].forEach(k => { if (body[k] !== undefined) o[k] = body[k]; }); return { order:o }; }
@@ -314,9 +417,10 @@ $('#logout').addEventListener('click', async () => { if (!S.demo) await call('PO
 
 async function start(){
   $('#login').classList.add('hidden'); $('#app').classList.remove('hidden');
-  await Promise.all([loadOrders(), loadSettings()]);
+  await Promise.all([loadOrders(), loadSettings(), reloadCatalog()]);
+  if (S.view === 'product') S.view = 'products';
   render();
-  clearInterval(S.timer); S.timer = setInterval(async () => { await loadOrders(true); if (!S.dirty) renderView(); }, 30e3);
+  clearInterval(S.timer); S.timer = setInterval(async () => { await loadOrders(true); const editing = S.dirty || S.edit || S.medit; if (!editing) { await reloadCatalog().catch(()=>{}); S.sdraft = null; renderView(); } }, 30e3);
 }
 async function loadOrders(quiet){
   try{
@@ -333,11 +437,14 @@ async function loadSettings(){ const j = await call('GET', '/api/admin/settings'
 
 /* ---------- views ---------- */
 function render(){
-  document.querySelectorAll('.nav button').forEach(b => b.setAttribute('aria-current', b.dataset.view === S.view ? 'page' : 'false'));
+  const navView = S.view === 'product' ? 'products' : S.view;
+  document.querySelectorAll('.nav button').forEach(b => b.setAttribute('aria-current', b.dataset.view === navView ? 'page' : 'false'));
   renderView();
 }
 function renderView(){
-  const v = { overview, orders, products, delivery, settings }[S.view] || overview;
+  const v = { overview, orders, products, product: productEdit, stock, models, delivery, settings }[S.view] || overview;
+  if (S.view === 'product' && !S.edit) { S.view = 'products'; return renderView(); }
+  const low = lowStock().filter(r => r.n === 0).length; $('#lowPill').textContent = low || ''; $('#lowPill').classList.toggle('hidden', !low);
   $('#main').innerHTML = (S.demo ? `<div class="demo"><b>Preview with sample orders.</b> Once the site is live on Railway, this shows your real orders and saves your changes.</div>` : '') + v();
 }
 function header(title, sub, right = ''){ return `<div class="head"><div><h1>${title}</h1>${sub ? `<div class="sub">${sub}</div>` : ''}</div><div>${right}</div></div>`; }
@@ -372,7 +479,8 @@ function overview(){
           <td style="text-align:right"><b>${KES(o.total)}</b></td></tr>`).join('')}</table>` : `<div class="empty">Nothing left to deliver today.</div>`}</div>
       <div class="card panel"><h2>Order value, last 7 days</h2>
         <div class="bars">${days.map((d,i) => `<div><b>${vals[i] ? (vals[i]/1000).toFixed(1)+'k' : ''}</b><i style="height:${Math.round(vals[i]/max*100)}%"></i><span>${i===6?'Today':new Date(d+'T00:00:00Z').toLocaleDateString('en-KE',{weekday:'short',timeZone:'UTC'})}</span></div>`).join('')}</div>
-        <h2 style="margin-top:20px">Top cases this week</h2>${topCases()}</div>
+        <h2 style="margin-top:20px">Top cases this week</h2>${topCases()}
+        <h2 style="margin-top:20px">Low stock</h2>${lowPanel()}</div>
     </div>`;
 }
 function topCases(){
@@ -382,6 +490,12 @@ function topCases(){
   return top.length ? `<table class="mini">${top.map(([n,q]) => `<tr style="cursor:default"><td>${esc(n)}</td><td style="text-align:right"><b>${q}</b> sold</td></tr>`).join('')}</table>` : `<div class="empty">No sales yet this week.</div>`;
 }
 
+function lowPanel(){
+  const rows = lowStock().slice(0, 8);
+  if (!S.catalog.products.some(p => p.trackStock)) return `<div class="empty" style="padding:14px">Turn on stock counting under Stock to see what's running low.</div>`;
+  return rows.length ? `<table class="mini">${rows.map(r => `<tr data-gostock="${r.p.id}"><td>${esc(r.p.name)}<br><span class="muted">${esc(r.m.name)} · ${esc(r.c.n)}</span></td><td style="text-align:right">${r.n === 0 ? '<span class="tag late">Sold out</span>' : `<b>${r.n}</b> left`}</td></tr>`).join('')}</table>`
+    : `<div class="empty" style="padding:14px">Nothing running low.</div>`;
+}
 function orders(){
   const t = nboDate();
   const counts = { open: 0, new: 0, confirmed: 0, out: 0, delivered: 0, cancelled: 0, all: S.orders.length };
@@ -459,36 +573,17 @@ async function patchOrder(body, msg){
   try{
     const j = await call('PATCH', `/api/admin/orders/${S.openId}`, body);
     const i = S.orders.findIndex(x => x.id === S.openId); S.orders[i] = j.order;
+    if (body.status) { try{ await reloadCatalog(); }catch(e){} }
     const n = S.orders.filter(o => o.status === 'new').length; $('#newPill').textContent = n || ''; $('#newPill').classList.toggle('hidden', !n);
     renderDrawer(); renderView(); if (msg) toast(msg);
   }catch(e){ toast(e.message); }
 }
 
-/* ---------- products / delivery / settings (edit a draft, then save) ---------- */
-function draft(){ if (!S.draft) S.draft = JSON.parse(JSON.stringify(Object.assign({ prices:{}, hidden:{}, soldOut:{}, zoneFees:{}, zoneOff:{}, hiddenModels:{} }, S.settings))); return S.draft; }
+/* ---------- delivery / settings (edit a draft, then save) ---------- */
+function draft(){ if (!S.draft) S.draft = JSON.parse(JSON.stringify(Object.assign({ zoneFees:{}, zoneOff:{} }, S.settings))); return S.draft; }
 function markDirty(){ S.dirty = true; const b = $('#saveBar'); if (b) b.classList.remove('hidden'); }
-function saveBar(){ return `<div class="savebar ${S.dirty?'':'hidden'}" id="saveBar"><span>You have unsaved changes.</span><span style="display:flex;gap:8px"><button class="btn" id="discard">Discard</button><button class="btn primary" id="saveSettings">Save changes</button></span></div>`; }
+function saveBar(id = 'saveSettings'){ return `<div class="savebar ${S.dirty?'':'hidden'}" id="saveBar"><span>You have unsaved changes.</span><span style="display:flex;gap:8px"><button class="btn" id="discard">Discard</button><button class="btn primary" id="${id}">Save changes</button></span></div>`; }
 
-function products(){
-  const d = draft(), base = S.base || { products: CATALOG.products, models: CATALOG.models };
-  return header('Products', 'Change prices, mark colours sold out, or hide a case. Changes show on the shop after you save.') +
-    `<div class="grid-cards">${base.products.map(p => {
-      const price = d.prices[p.id] ?? p.price, out = !!d.soldOut[p.id], hid = !!d.hidden[p.id];
-      return `<div class="card prod">
-        <div><h3>${esc(p.name)}</h3><div class="meta">${esc(p.style)} · ${p.fits === 'all' ? 'all models' : p.fits.length + ' models'}${d.prices[p.id] !== undefined && d.prices[p.id] !== p.price ? ` · was ${KES(p.price)}` : ''}</div></div>
-        <div class="ctrls">
-          <label class="price">KES <input class="in" type="number" min="0" step="50" value="${price}" data-price="${p.id}" aria-label="Price for ${esc(p.name)}"></label>
-          <label class="switch"><input type="checkbox" data-instock="${p.id}" ${out?'':'checked'}> In stock</label>
-          <label class="switch"><input type="checkbox" data-visible="${p.id}" ${hid?'':'checked'}> On shop</label>
-        </div>
-        <div class="colours">${p.colors.map(c => { const k = p.id + ':' + c.id, off = out || !!d.soldOut[k];
-          return `<button class="chip ${off?'off':''}" data-colour="${k}" ${out?'disabled':''} title="${off?'Sold out — tap to mark in stock':'In stock — tap to mark sold out'}"><i style="background:${c.c}"></i>${esc(c.n)}${off?' · sold out':''}</button>`; }).join('')}</div>
-      </div>`; }).join('')}
-    <div class="card"><div class="panel" style="padding-bottom:0"><h2>iPhone models on the shop</h2><div class="muted" style="font-size:14px">Tap a model to hide it from the picker.</div></div>
-      <div class="models">${base.models.map(m => { const off = !!d.hiddenModels[m.id];
-        return `<button class="chip ${off?'off':''}" data-model="${m.id}">${esc(m.name)}${off?' · hidden':''}</button>`; }).join('')}</div></div>
-    </div>` + saveBar();
-}
 function delivery(){
   const d = draft(), base = S.base || { zones: CATALOG.zones }, cut = d.cutoffHour ?? CATALOG.defaults.cutoffHour, days = d.deliveryDays || CATALOG.defaults.deliveryDays;
   const names = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
@@ -514,7 +609,6 @@ function settings(){
         <span class="muted" style="font-weight:400;font-size:13px">Customers use this for questions. Orders come into this dashboard.</span></label>
     </div>` + saveBar();
 }
-
 async function saveSettings(){
   try{
     const j = await call('PUT', '/api/admin/settings', S.draft);
@@ -522,49 +616,334 @@ async function saveSettings(){
   }catch(e){ toast(e.message); }
 }
 
+/* ---------- catalog: products, stock, iPhone models ---------- */
+const CAMS = [['plateau','Wide camera bar (17 Pro)'],['pro','Three lenses (Pro)'],['duo','Two lenses, diagonal'],['duov','Two lenses, stacked'],['single','One lens'],['bar1','Slim bar (Air)']];
+const P = id => (S.catalog?.products || []).find(p => p.id === id);
+const MD = id => (S.catalog?.models || []).find(m => m.id === id);
+const fitsList = p => p.fits === 'all' ? S.catalog.models : S.catalog.models.filter(m => p.fits.includes(m.id));
+const dot = c => `<i class="dot" style="background:${c.c}"></i>`;
+function pThumb(p){ const c = p.colors.find(x => x.img); return c ? `<img src="${esc(c.img)}" alt="">` : `<span class="dots">${p.colors.slice(0,4).map(dot).join('')}</span>`; }
+function stockTotals(p){
+  if (!p.trackStock) return null;
+  let total = 0, out = 0, low = 0;
+  fitsList(p).forEach(m => p.colors.forEach(c => { const n = (p.stock||{})[m.id+':'+c.id] || 0; total += n; if (!n) out++; else if (n <= 2) low++; }));
+  return { total, out, low };
+}
+function lowStock(){
+  const rows = [];
+  (S.catalog?.products || []).filter(p => p.trackStock && p.active !== false).forEach(p => fitsList(p).forEach(m => p.colors.forEach(c => {
+    const n = (p.stock||{})[m.id+':'+c.id] || 0; if (n <= 2) rows.push({ p, m, c, n });
+  })));
+  return rows.sort((a,b) => a.n - b.n);
+}
+async function reloadCatalog(){ const j = await call('GET', '/api/admin/catalog'); S.catalog = j.catalog; }
+
+function products(){
+  const list = S.catalog.products;
+  return header('Products', 'Everything on the shop. Add a case, edit prices, colours and photos, or delete it.', `<button class="btn primary" data-newprod>Add product</button>`) +
+    (list.length ? `<div class="card plist">${list.map((p,i) => { const t = stockTotals(p);
+      return `<div class="prow">
+        <div class="pthumb">${pThumb(p)}</div>
+        <div class="pinfo"><b>${esc(p.name)}</b><div class="muted">${esc(p.style)} · ${KES(p.price)} · ${p.colors.length} colour${p.colors.length>1?'s':''} · ${p.fits==='all'?'all iPhones':p.fits.length+' iPhones'}</div></div>
+        <div class="pstock">${t ? `<b>${t.total}</b> in stock${t.out?`<br><span class="warn">${t.out} sold out</span>`:''}` : `<span class="muted">Not counting stock</span>`}</div>
+        <div>${p.active === false ? '<span class="status s-cancelled">Hidden</span>' : p.soldOut ? '<span class="status s-out">Sold out</span>' : '<span class="status s-delivered">On shop</span>'}</div>
+        <div class="pacts">
+          <button class="icon" data-pmove="${p.id}" data-dir="up" ${i===0?'disabled':''} aria-label="Move up">↑</button>
+          <button class="icon" data-pmove="${p.id}" data-dir="down" ${i===list.length-1?'disabled':''} aria-label="Move down">↓</button>
+          <button class="btn" data-stockof="${p.id}">Stock</button>
+          <button class="btn" data-editprod="${p.id}">Edit</button>
+        </div></div>`; }).join('')}</div>`
+      : `<div class="card empty">No products yet. Add your first case.</div>`);
+}
+
+function productEdit(){
+  const d = S.edit, isNew = !d.id;
+  const models = S.catalog.models;
+  return header(isNew ? 'Add product' : `Edit ${esc(d.name || 'product')}`, isNew ? 'Fill this in and save. It goes on the shop straight away unless you switch “On shop” off.' : '',
+      `<button class="btn" data-view="products">Back to products</button>`) + `
+    <div class="editor">
+      <div class="card set wide">
+        <label class="f">Name<input class="in" data-pf="name" value="${esc(d.name)}" placeholder="e.g. Glitter Case" maxlength="60"></label>
+        <div class="row3">
+          <label class="f">Price (KES)<input class="in" type="number" min="0" step="50" data-pf="price" value="${d.price ?? ''}" placeholder="1500"></label>
+          <label class="f">Type<input class="in" data-pf="style" value="${esc(d.style)}" placeholder="Silicone, Clear, Leather…" list="styles" maxlength="30"></label>
+          <label class="f">Label<input class="in" data-pf="tag" value="${esc(d.tag)}" placeholder="Optional: New, Best seller" maxlength="20"></label>
+        </div>
+        <datalist id="styles">${[...new Set(S.catalog.products.map(p => p.style))].map(s => `<option value="${esc(s)}">`).join('')}</datalist>
+        <label class="f">Description<textarea class="in" data-pf="desc" rows="2" maxlength="300" placeholder="One or two lines customers see under the name">${esc(d.desc)}</textarea></label>
+      </div>
+
+      <div class="card set wide">
+        <div class="f">Colours<span class="muted" style="font-weight:400;font-size:13px">Add a photo of the case in each colour if you have one. Without a photo, the shop draws the case in that colour.</span></div>
+        <div class="colours-ed">${d.colors.map((c,i) => `<div class="crow">
+          <div class="cimg">${c.img ? `<img src="${esc(c.img)}" alt="">` : `<span style="background:${c.c}"></span>`}</div>
+          <div class="cmain">
+            <div class="cline"><input type="color" value="${c.c}" data-cf="c" data-ci="${i}" aria-label="Colour"><input class="in" data-cf="n" data-ci="${i}" value="${esc(c.n)}" placeholder="Colour name" maxlength="30"></div>
+            <div class="cline small">
+              <label class="btn upl">${c.img ? 'Change photo' : 'Add photo'}<input type="file" accept="image/png,image/jpeg,image/webp" data-cimg="${i}" hidden></label>
+              ${c.img ? `<button class="btn" data-cimgrm="${i}">Remove photo</button>` : ''}
+              <label class="switch"><input type="checkbox" data-cf="soldOut" data-ci="${i}" ${c.soldOut?'':'checked'}> In stock</label>
+              <button class="btn danger" data-crm="${i}" ${d.colors.length < 2 ? 'disabled title="A case needs at least one colour"' : ''}>Remove</button>
+            </div>
+          </div></div>`).join('')}</div>
+        <div><button class="btn" data-cadd>Add colour</button></div>
+      </div>
+
+      <div class="card set wide">
+        <div class="f">Fits which iPhones?</div>
+        <div class="days"><label><input type="radio" name="fitsall" value="all" ${d.fits==='all'?'checked':''}>All iPhones</label><label><input type="radio" name="fitsall" value="some" ${d.fits!=='all'?'checked':''}>Only some</label></div>
+        ${d.fits !== 'all' ? `<div class="mchecks">${models.map(m => `<label class="mcheck"><input type="checkbox" data-fit="${m.id}" ${d.fits.includes(m.id)?'checked':''}> ${esc(m.name)}</label>`).join('')}</div>` : ''}
+      </div>
+
+      <div class="card set wide">
+        <label class="switch"><input type="checkbox" data-pf="active" ${d.active !== false ? 'checked' : ''}> On shop <span class="muted" style="font-weight:400">— switch off to hide it without deleting</span></label>
+        <label class="switch"><input type="checkbox" data-pf="instock" ${d.soldOut ? '' : 'checked'}> In stock <span class="muted" style="font-weight:400">— switch off to show the whole case as sold out</span></label>
+      </div>
+      <div class="err" id="perr" aria-live="polite"></div>
+      <div class="actions">
+        <button class="btn primary big" data-psave>${isNew ? 'Add product' : 'Save changes'}</button>
+        <button class="btn big" data-view="products">Cancel</button>
+        ${!isNew ? `<span style="flex:1"></span><button class="btn danger big" data-pdel="${d.id}">Delete product</button>` : ''}
+      </div>
+    </div>`;
+}
+
+function stock(){
+  const list = S.catalog.products;
+  if (!list.length) return header('Stock', '') + `<div class="card empty">Add a product first.</div>`;
+  if (!P(S.stockId)) S.stockId = list[0].id;
+  const p = P(S.stockId);
+  if (!S.sdraft || S.sdraft.id !== p.id) S.sdraft = { id: p.id, trackStock: !!p.trackStock, stock: Object.assign({}, p.stock || {}) };
+  const d = S.sdraft, ms = fitsList(p);
+  let grand = 0; const colTot = p.colors.map(() => 0);
+  const rows = ms.map(m => { let rt = 0;
+    const cells = p.colors.map((c, ci) => { const k = m.id + ':' + c.id, n = d.stock[k] ?? 0; rt += n; colTot[ci] += n;
+      return `<td><input class="in qty ${n===0?'zero':n<=2?'low':''}" type="number" min="0" step="1" inputmode="numeric" value="${n}" data-sk="${k}" aria-label="${esc(m.name)} ${esc(c.n)}"></td>`; }).join('');
+    grand += rt; return `<tr><th scope="row">${esc(m.name)}</th>${cells}<td class="tot" data-rt="${m.id}">${rt}</td></tr>`; }).join('');
+  return header('Stock', 'How many of each case you have, per iPhone and colour. Orders take stock off; cancelling puts it back.') + `
+    <div class="tabs" style="margin-bottom:14px" role="group" aria-label="Product">${list.map(x => `<button data-stockof="${x.id}" aria-pressed="${x.id===p.id}">${esc(x.name)}</button>`).join('')}</div>
+    <div class="card set wide" style="margin-bottom:14px">
+      <label class="switch"><input type="checkbox" id="trackStock" ${d.trackStock?'checked':''}> Count stock for ${esc(p.name)}</label>
+      <span class="muted" style="font-size:13.5px">${d.trackStock ? 'Customers can only order what’s in stock. A box at 0 shows as sold out for that iPhone and colour.' : 'Off: customers can order any amount (use this for cases you order in on demand).'}</span>
+    </div>
+    ${d.trackStock ? `<div class="card stock-wrap">
+      <div class="stock-tools"><span>Set every box to</span><input class="in" type="number" min="0" id="fillAll" style="width:90px" placeholder="0"><button class="btn" data-fill>Apply</button>
+        <span style="flex:1"></span><span class="muted"><b style="color:var(--ink)" data-grand>${grand}</b> in stock in total</span></div>
+      <div class="stock-scroll"><table class="stock"><thead><tr><th></th>${p.colors.map(c => `<th>${dot(c)} ${esc(c.n)}</th>`).join('')}<th class="tot">Total</th></tr></thead>
+        <tbody>${rows}</tbody>
+        <tfoot><tr><th>Total</th>${colTot.map((n,ci) => `<td class="tot" data-ct="${p.colors[ci].id}">${n}</td>`).join('')}<td class="tot" data-grand>${grand}</td></tr></tfoot></table></div>
+    </div>` : ''}` + saveBar('saveStock');
+}
+
+function updateStockTotals(){
+  const p = P(S.stockId); if (!p || !S.sdraft) return;
+  let grand = 0; const ct = {};
+  fitsList(p).forEach(m => { let rt = 0; p.colors.forEach(c => { const n = S.sdraft.stock[m.id+':'+c.id] || 0; rt += n; ct[c.id] = (ct[c.id]||0) + n; });
+    grand += rt; const el = document.querySelector(`[data-rt="${m.id}"]`); if (el) el.textContent = rt; });
+  p.colors.forEach(c => { const el = document.querySelector(`[data-ct="${c.id}"]`); if (el) el.textContent = ct[c.id] || 0; });
+  document.querySelectorAll('[data-grand]').forEach(el => el.textContent = grand);
+}
+function models(){
+  const list = S.catalog.models, ed = S.medit;
+  const form = m => `<div class="card set wide mform">
+      <h3 style="margin:0">${m.id ? 'Edit ' + esc(m.name) : 'Add an iPhone model'}</h3>
+      <div class="row3">
+        <label class="f">Name<input class="in" data-mf="name" value="${esc(m.name)}" placeholder="iPhone 18 Pro" maxlength="40"></label>
+        <label class="f">Height (mm)<input class="in" type="number" step="0.1" data-mf="h" value="${m.h ?? ''}" placeholder="150.0"></label>
+        <label class="f">Width (mm)<input class="in" type="number" step="0.1" data-mf="w" value="${m.w ?? ''}" placeholder="71.9"></label>
+      </div>
+      <span class="muted" style="font-size:13px">Height and width set how big it looks in the picker. Apple lists them on each iPhone’s tech specs page.</span>
+      <div class="cline">
+        <div class="mimg">${m.photo ? `<img src="${esc(m.photo)}" alt="">` : ''}</div>
+        <label class="btn upl">${m.photo ? 'Change photo' : 'Add photo'}<input type="file" accept="image/png,image/jpeg,image/webp" data-mimg hidden></label>
+        ${m.photo ? `<button class="btn" data-mimgrm>Remove photo</button>` : ''}
+        <label class="f" style="margin-left:auto">Drawing if no photo<select class="in" data-mf="cam">${CAMS.map(([k,l]) => `<option value="${k}" ${m.cam===k?'selected':''}>${l}</option>`).join('')}</select></label>
+      </div>
+      <span class="muted" style="font-size:13px">Best photo: the back of the phone, straight on, with a transparent or plain white background.</span>
+      <div class="err" id="merr"></div>
+      <div class="actions"><button class="btn primary" data-msave>${m.id ? 'Save' : 'Add model'}</button><button class="btn" data-mcancel>Cancel</button></div>
+    </div>`;
+  return header('iPhone models', 'The phones customers pick from. New models show at the top.', ed ? '' : `<button class="btn primary" data-mnew>Add iPhone model</button>`) +
+    (ed && !ed.id ? form(ed) : '') + `
+    <div class="card plist">${list.map((m,i) => ed && ed.id === m.id ? `<div style="padding:12px">${form(ed)}</div>` : `<div class="prow mrow">
+        <div class="pthumb">${m.photo ? `<img src="${esc(m.photo)}" alt="">` : '<span class="muted" style="font-size:12px">No photo</span>'}</div>
+        <div class="pinfo"><b>${esc(m.name)}</b><div class="muted">${m.h} × ${m.w} mm</div></div>
+        <div><label class="switch"><input type="checkbox" data-mvis="${m.id}" ${m.hidden?'':'checked'}> On shop</label></div>
+        <div class="pacts">
+          <button class="icon" data-mmove="${m.id}" data-dir="up" ${i===0?'disabled':''} aria-label="Move up">↑</button>
+          <button class="icon" data-mmove="${m.id}" data-dir="down" ${i===list.length-1?'disabled':''} aria-label="Move down">↓</button>
+          <button class="btn" data-medit="${m.id}">Edit</button>
+          <button class="btn danger" data-mdel="${m.id}">Delete</button>
+        </div></div>`).join('')}</div>`;
+}
+
+/* photo upload: shrink in the browser, then send */
+function shrink(file, max = 1200){
+  return new Promise((resolve, reject) => {
+    if (!/^image\/(png|jpeg|webp)$/.test(file.type)) return reject(new Error('Upload a PNG, JPG or WebP photo.'));
+    const img = new Image(), url = URL.createObjectURL(file);
+    img.onload = () => {
+      const k = Math.min(1, max / Math.max(img.width, img.height)), w = Math.round(img.width * k), h = Math.round(img.height * k);
+      const cv = document.createElement('canvas'); cv.width = w; cv.height = h; cv.getContext('2d').drawImage(img, 0, 0, w, h);
+      URL.revokeObjectURL(url);
+      resolve(cv.toDataURL(file.type === 'image/jpeg' ? 'image/jpeg' : 'image/png', .86));
+    };
+    img.onerror = () => reject(new Error('Couldn’t read that photo. Try another file.'));
+    img.src = url;
+  });
+}
+async function uploadPhoto(file){
+  toast('Uploading photo…');
+  const dataUrl = await shrink(file);
+  const j = await call('POST', '/api/admin/upload', { dataUrl });
+  return j.url;
+}
+
+/* in-page confirm */
+function ask(msg, ok = 'Delete'){
+  return new Promise(res => {
+    $('#modalMsg').textContent = msg; $('#modalOk').textContent = ok; $('#modal').classList.remove('hidden'); $('#modalOk').focus();
+    const done = v => { $('#modal').classList.add('hidden'); $('#modalOk').onclick = $('#modalNo').onclick = null; res(v); };
+    $('#modalOk').onclick = () => done(true); $('#modalNo').onclick = () => done(false);
+  });
+}
+
+function newProduct(){ return { name:'', style:'', price:'', tag:'', desc:'', fits:'all', active:true, soldOut:false, colors:[{ n:'Black', c:'#25292E', soldOut:false }] }; }
+async function saveProduct(){
+  const d = S.edit, body = Object.assign({}, d, { price: Number(d.price) });
+  $('#perr').textContent = '';
+  try{
+    const j = d.id ? await call('PUT', `/api/admin/products/${d.id}`, body) : await call('POST', '/api/admin/products', body);
+    S.catalog = j.catalog; S.edit = null; S.dirty = false; S.view = 'products'; render();
+    toast(d.id ? 'Saved. The shop is updated.' : `${j.product.name} added to the shop`);
+  }catch(e){ $('#perr').textContent = e.message; }
+}
+
 /* ---------- events ---------- */
-document.addEventListener('click', e => {
-  const t = e.target.closest('button, a, tr[data-open]'); if (!t) return;
-  if (t.dataset.view){ if (S.dirty && !confirmLeave()) return; S.view = t.dataset.view; history.replaceState(null,'','#'+S.view); render(); return; }
+async function go(view){
+  S.view = view; history.replaceState(null, '', '#' + view);
+  if (['overview','products','stock','models'].includes(view) && !S.edit && !S.medit) { try{ await reloadCatalog(); }catch(e){} }
+  if (view === 'overview' || view === 'orders') await loadOrders(true);
+  render(); window.scrollTo(0, 0);
+}
+document.addEventListener('click', async e => {
+  const t = e.target.closest('button, a, tr[data-open], tr[data-gostock]'); if (!t || t.disabled) return;
+  if (t.dataset.gostock){ S.stockId = t.dataset.gostock; S.sdraft = null; go('stock'); return; }
+  if (t.dataset.view){ if (S.dirty) { S.draft = null; S.dirty = false; } S.sdraft = null; S.edit = null; S.medit = null; go(t.dataset.view); return; }
   if (t.dataset.open){ openOrder(t.dataset.open); return; }
   if (t.dataset.filter){ S.filter = t.dataset.filter; renderView(); return; }
   if (t.id === 'dClose'){ closeOrder(); return; }
   if (t.dataset.status){
-    const s = t.dataset.status, body = { status: s };
-    patchOrder(body, { confirmed:'Order confirmed', out:'Marked out for delivery', delivered:'Marked delivered', cancelled:'Order cancelled', new:'Order reopened' }[s]); return;
+    const s = t.dataset.status;
+    if (s === 'cancelled' && !(await ask('Cancel this order? Any counted stock goes back on the shelf.', 'Cancel order'))) return;
+    patchOrder({ status: s }, { confirmed:'Order confirmed', out:'Marked out for delivery', delivered:'Marked delivered', cancelled:'Order cancelled', new:'Order reopened' }[s]);
+    return;
   }
   if (t.dataset.pay){ patchOrder({ payMethod: t.dataset.pay, paid: true }, 'Payment recorded'); return; }
   if (t.id === 'saveNote'){ patchOrder({ adminNote: $('#adminNote').value }, 'Note saved'); return; }
-  if (t.dataset.colour){ const d = draft(); d.soldOut[t.dataset.colour] = !d.soldOut[t.dataset.colour]; if (!d.soldOut[t.dataset.colour]) delete d.soldOut[t.dataset.colour]; markDirty(); renderView(); return; }
-  if (t.dataset.model){ const d = draft(); d.hiddenModels[t.dataset.model] = !d.hiddenModels[t.dataset.model]; if (!d.hiddenModels[t.dataset.model]) delete d.hiddenModels[t.dataset.model]; markDirty(); renderView(); return; }
   if (t.id === 'saveSettings'){ saveSettings(); return; }
-  if (t.id === 'discard'){ S.draft = null; S.dirty = false; renderView(); return; }
-  if (t.getAttribute('aria-disabled') === 'true'){ e.preventDefault(); toast('CSV download works once the site is live.'); }
+  if (t.id === 'discard'){ S.draft = null; S.sdraft = null; S.dirty = false; renderView(); return; }
+  if (t.getAttribute('aria-disabled') === 'true'){ e.preventDefault(); toast('CSV download works once the site is live.'); return; }
+
+  /* products */
+  if (t.hasAttribute('data-newprod')){ S.edit = newProduct(); go('product'); return; }
+  if (t.dataset.editprod){ S.edit = JSON.parse(JSON.stringify(P(t.dataset.editprod))); go('product'); return; }
+  if (t.dataset.pmove){ try{ S.catalog = (await call('POST', `/api/admin/products/${t.dataset.pmove}/move`, { dir: t.dataset.dir })).catalog; renderView(); }catch(err){ toast(err.message); } return; }
+  if (t.hasAttribute('data-cadd')){ S.edit.colors.push({ n:'', c:'#9CC3E4', soldOut:false }); renderView(); const ins = document.querySelectorAll('[data-cf="n"]'); ins[ins.length-1].focus(); return; }
+  if (t.dataset.crm !== undefined){ S.edit.colors.splice(+t.dataset.crm, 1); renderView(); return; }
+  if (t.dataset.cimgrm !== undefined){ delete S.edit.colors[+t.dataset.cimgrm].img; renderView(); return; }
+  if (t.hasAttribute('data-psave')){ saveProduct(); return; }
+  if (t.dataset.pdel){
+    const p = P(t.dataset.pdel);
+    if (!(await ask(`Delete ${p.name}? It comes off the shop and its stock is removed. Past orders keep their details.`, 'Delete product'))) return;
+    try{ S.catalog = (await call('DELETE', `/api/admin/products/${p.id}`)).catalog; S.edit = null; go('products'); toast(`${p.name} deleted`); }catch(err){ toast(err.message); }
+    return;
+  }
+
+  /* stock */
+  if (t.dataset.stockof){ if (S.dirty) { S.sdraft = null; S.dirty = false; } S.stockId = t.dataset.stockof; S.sdraft = null; if (S.view !== 'stock') go('stock'); else renderView(); return; }
+  if (t.hasAttribute('data-fill')){ const v = Math.max(0, Math.floor(Number($('#fillAll').value) || 0)); const p = P(S.stockId);
+    fitsList(p).forEach(m => p.colors.forEach(c => { S.sdraft.stock[m.id+':'+c.id] = v; })); markDirtyRender(); return; }
+  if (t.id === 'saveStock'){
+    try{ const j = await call('PUT', `/api/admin/products/${S.stockId}/stock`, { trackStock: S.sdraft.trackStock, stock: S.sdraft.stock });
+      S.catalog = j.catalog; S.sdraft = null; S.dirty = false; renderView(); toast('Stock saved. The shop is updated.'); }catch(err){ toast(err.message); }
+    return;
+  }
+
+  /* models */
+  if (t.hasAttribute('data-mnew')){ S.medit = { name:'', h:'', w:'', cam:'pro' }; renderView(); $('[data-mf="name"]').focus(); return; }
+  if (t.dataset.medit){ S.medit = JSON.parse(JSON.stringify(MD(t.dataset.medit))); renderView(); return; }
+  if (t.hasAttribute('data-mcancel')){ S.medit = null; renderView(); return; }
+  if (t.hasAttribute('data-mimgrm')){ delete S.medit.photo; renderView(); return; }
+  if (t.hasAttribute('data-msave')){
+    const m = S.medit;
+    try{ const j = m.id ? await call('PUT', `/api/admin/models/${m.id}`, m) : await call('POST', '/api/admin/models', m);
+      S.catalog = j.catalog; S.medit = null; renderView(); toast(m.id ? 'Saved' : `${m.name} added. Tick it in any case that fits it.`); }
+    catch(err){ $('#merr').textContent = err.message; }
+    return;
+  }
+  if (t.dataset.mmove){ try{ S.catalog = (await call('POST', `/api/admin/models/${t.dataset.mmove}/move`, { dir: t.dataset.dir })).catalog; renderView(); }catch(err){ toast(err.message); } return; }
+  if (t.dataset.mdel){
+    const m = MD(t.dataset.mdel);
+    if (!(await ask(`Delete ${m.name}? It comes off the picker and its stock counts are removed from every case.`, 'Delete model'))) return;
+    try{ S.catalog = (await call('DELETE', `/api/admin/models/${m.id}`)).catalog; renderView(); toast(`${m.name} deleted`); }catch(err){ toast(err.message); }
+    return;
+  }
 });
-function confirmLeave(){ S.draft = null; S.dirty = false; toast('Unsaved changes discarded'); return true; }
+function markDirtyRender(){ S.dirty = true; renderView(); }
+
 document.addEventListener('input', e => {
   const el = e.target;
   if (el.id === 'q'){ S.q = el.value; const pos = el.selectionStart; renderView(); const n = $('#q'); n.focus(); n.setSelectionRange(pos,pos); return; }
-  const d = S.view === 'orders' || S.view === 'overview' ? null : draft();
-  if (!d) return;
-  if (el.dataset.price !== undefined){ const v = Math.round(Number(el.value)); if (v >= 0) d.prices[el.dataset.price] = v; markDirty(); }
+  if (el.dataset.pf && S.edit && el.type !== 'checkbox'){ S.edit[el.dataset.pf] = el.value; return; }
+  if (el.dataset.cf && S.edit && el.type !== 'checkbox'){
+    const c = S.edit.colors[+el.dataset.ci]; c[el.dataset.cf] = el.value;
+    if (el.dataset.cf === 'c'){ const sw = el.closest('.crow').querySelector('.cimg span'); if (sw) sw.style.background = el.value; }
+    return;
+  }
+  if (el.dataset.mf && S.medit){ S.medit[el.dataset.mf] = el.value; return; }
+  if (el.dataset.sk && S.sdraft){
+    const n = Math.max(0, Math.floor(Number(el.value) || 0)); S.sdraft.stock[el.dataset.sk] = n;
+    el.classList.toggle('zero', n === 0); el.classList.toggle('low', n > 0 && n <= 2); markDirty(); updateStockTotals(); return;
+  }
+  if (S.view !== 'delivery' && S.view !== 'settings') return;
+  const d = draft();
   if (el.dataset.fee !== undefined){ const v = Math.round(Number(el.value)); if (v >= 0) d.zoneFees[el.dataset.fee] = v; markDirty(); }
   if (el.id === 'wa'){ d.whatsapp = el.value; markDirty(); }
 });
-document.addEventListener('change', e => {
+document.addEventListener('change', async e => {
   const el = e.target;
   if (el.id === 'when'){ S.when = el.value; renderView(); return; }
-  if (S.view === 'orders' || S.view === 'overview') return;
+  if (el.dataset.pf && S.edit && el.type === 'checkbox'){ if (el.dataset.pf === 'active') S.edit.active = el.checked; else S.edit.soldOut = !el.checked; return; }
+  if (el.dataset.cf === 'soldOut' && S.edit){ S.edit.colors[+el.dataset.ci].soldOut = !el.checked; return; }
+  if (el.name === 'fitsall' && S.edit){ S.edit.fits = el.value === 'all' ? 'all' : (Array.isArray(S.edit.fits) ? S.edit.fits : []); renderView(); return; }
+  if (el.dataset.fit && S.edit){ const set = new Set(S.edit.fits); el.checked ? set.add(el.dataset.fit) : set.delete(el.dataset.fit); S.edit.fits = S.catalog.models.map(m => m.id).filter(id => set.has(id)); return; }
+  if (el.dataset.cimg !== undefined && el.files[0]){
+    try{ const url = await uploadPhoto(el.files[0]); S.edit.colors[+el.dataset.cimg].img = url; renderView(); toast('Photo added. Save to put it on the shop.'); }catch(err){ toast(err.message); }
+    return;
+  }
+  if (el.hasAttribute('data-mimg') && el.files[0]){
+    try{ const url = await uploadPhoto(el.files[0]); S.medit.photo = url; renderView(); toast('Photo added. Save to put it on the shop.'); }catch(err){ toast(err.message); }
+    return;
+  }
+  if (el.dataset.mvis){
+    const m = MD(el.dataset.mvis);
+    try{ S.catalog = (await call('PUT', `/api/admin/models/${m.id}`, Object.assign({}, m, { hidden: !el.checked }))).catalog; toast(el.checked ? `${m.name} is on the shop` : `${m.name} hidden from the shop`); }catch(err){ toast(err.message); }
+    return;
+  }
+  if (el.id === 'trackStock' && S.sdraft){ S.sdraft.trackStock = el.checked; markDirtyRender(); return; }
+  if (S.view !== 'delivery' && S.view !== 'settings') return;
   const d = draft();
-  if (el.dataset.instock){ if (el.checked) delete d.soldOut[el.dataset.instock]; else d.soldOut[el.dataset.instock] = true; markDirty(); renderView(); }
-  if (el.dataset.visible){ if (el.checked) delete d.hidden[el.dataset.visible]; else d.hidden[el.dataset.visible] = true; markDirty(); }
   if (el.dataset.zoneon){ if (el.checked) delete d.zoneOff[el.dataset.zoneon]; else d.zoneOff[el.dataset.zoneon] = true; markDirty(); }
   if (el.id === 'cutoff'){ d.cutoffHour = Number(el.value); markDirty(); }
   if (el.dataset.day !== undefined){ const set = new Set(d.deliveryDays || CATALOG.defaults.deliveryDays); el.checked ? set.add(+el.dataset.day) : set.delete(+el.dataset.day); d.deliveryDays = [...set].sort(); markDirty(); }
 });
 $('#scrim').addEventListener('click', closeOrder);
-document.addEventListener('keydown', e => { if (e.key === 'Escape' && S.openId) closeOrder(); });
-window.addEventListener('beforeunload', e => { if (S.dirty) { e.preventDefault(); e.returnValue = ''; } });
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape' && !$('#modal').classList.contains('hidden')) { $('#modalNo').click(); return; }
+  if (e.key === 'Escape' && S.openId) closeOrder();
+});
+window.addEventListener('beforeunload', e => { if (S.dirty || S.edit) { e.preventDefault(); e.returnValue = ''; } });
 
 let tt; function toast(m){ const el = $('#toast'); el.textContent = m; el.classList.add('show'); clearTimeout(tt); tt = setTimeout(() => el.classList.remove('show'), 2400); }
 boot();

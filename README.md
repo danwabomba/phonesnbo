@@ -22,16 +22,22 @@ The iPhone cases shop, its order system and the admin dashboard. It's plain Node
 - "Outside Nairobi" orders go by courier and never get a same-day promise.
 - Each order moves through **New → Confirmed → Out for delivery → Delivered**, and you record M-Pesa or cash when you're paid.
 
-## Changing the catalog
+## Managing products and stock (all from /admin)
 
-`public/catalog.js` holds the iPhone models, case styles, colours and delivery areas. Edit it to add a new model or case style. Prices, stock, fees and the WhatsApp number can all be changed from `/admin` without touching code.
+- **Products:** add a case, edit its name, price, type, label and description, add or remove colours, upload a photo per colour, choose which iPhones it fits, hide it, or delete it. The arrows set the order on the shop.
+- **Stock:** switch on "Count stock" for a case, then type how many you have for each iPhone and colour. Orders take stock off, and cancelling an order puts it back. A box at 0 shows as sold out on the shop. Low and sold-out items appear on the Overview.
+- **iPhone models:** add a new model with its photo and size, edit or delete one, hide it, or reorder the picker.
 
-Phone photos are in `public/images/`. To add a photo of a case, put it in that folder and add `img: 'images/your-file.png'` to the case colour in `catalog.js`.
+Photos you upload are saved in `DATA_DIR/uploads`, so they need the Railway volume too.
+
+`public/catalog.js` holds the starting catalog. The first time the server runs, it copies that into `DATA_DIR/catalog.json`, and from then on the dashboard is the source of truth.
 
 ## Data
 
 - `DATA_DIR/orders.json`: all orders
-- `DATA_DIR/settings.json`: what you changed in the dashboard
+- `DATA_DIR/catalog.json`: products, colours, stock and iPhone models
+- `DATA_DIR/uploads/`: photos uploaded in the dashboard
+- `DATA_DIR/settings.json`: delivery fees, cutoff and WhatsApp number
 - `DATA_DIR/secret.json`: signs admin logins. Don't share it.
 
 Download every order as a spreadsheet from **Orders → Download CSV**.
