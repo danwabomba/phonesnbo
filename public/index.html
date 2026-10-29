@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PhonesNBO — iPhone cases, Nairobi</title>
+<meta name="description" content="Cases for every recent iPhone. Pay on delivery in Nairobi.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#F2F4F6; --card:#FFFFFF; --ink:#15181C; --muted:#5B6470; --line:#D5DAE0;
+  --cobalt:#3B8EF0; --cobalt-dk:#2A78D6; --sticker:#FFD23F; --mint:#CDEFD9; --mint-ink:#11643A;
+  --r-sm:6px; --r-md:14px; --r-lg:28px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{animation:none!important;transition:none!important}}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:'Archivo',system-ui,sans-serif;font-size:16px;line-height:1.5;font-variation-settings:"wdth" 100}
+a{color:inherit}
+button{font:inherit;color:inherit;cursor:pointer}
+:focus-visible{outline:3px solid var(--cobalt);outline-offset:2px;border-radius:4px}
+.wrap{max-width:1180px;margin:0 auto;padding:0 20px}
+.wide{font-variation-settings:"wdth" 125}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+
+/* header */
+header.top{position:sticky;top:0;z-index:20;background:rgba(242,244,246,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+header.top .wrap{display:flex;align-items:center;gap:24px;height:64px}
+.logo{font-weight:900;font-size:22px;letter-spacing:-.02em;text-decoration:none;font-variation-settings:"wdth" 125}
+.logo span{color:var(--cobalt)}
+nav.main{display:flex;gap:4px;margin-right:auto}
+nav.main a,nav.main span{padding:8px 12px;border-radius:999px;text-decoration:none;font-weight:600;font-size:15px}
+nav.main a[aria-current]{background:var(--ink);color:#fff}
+nav.main span{color:var(--muted)}
+nav.main span small{font-weight:500;font-size:12px;margin-left:4px}
+.cart-btn{display:flex;align-items:center;gap:8px;background:var(--cobalt);color:#fff;border:0;border-radius:999px;padding:9px 16px;font-weight:700}
+.cart-btn:hover{background:var(--cobalt-dk)}
+.cart-count{background:#fff;color:var(--cobalt);border-radius:999px;min-width:22px;height:22px;display:inline-grid;place-items:center;font-size:13px;padding:0 6px}
+
+/* hero / picker */
+.hero{padding:56px 0 32px}
+.hero h1{font-size:clamp(38px,6.4vw,80px);line-height:.95;letter-spacing:-.03em;font-weight:850;margin:0;max-width:13ch;font-variation-settings:"wdth" 125}
+.hero p.lead{font-size:19px;color:var(--muted);max-width:52ch;margin:20px 0 0}
+.picker{margin-top:40px;background:var(--card);border:1px solid var(--line);border-radius:var(--r-lg);padding:24px 24px 8px}
+.picker-head{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:12px}
+.picker-head h2{margin:0;font-size:22px;font-weight:750}
+.picked{font-size:15px;color:var(--muted)}
+.picked b{color:var(--ink)}
+.shelf{display:flex;align-items:flex-end;gap:10px;overflow-x:auto;padding:28px 2px 18px;scroll-snap-type:x proximity}
+.phone{flex:0 0 auto;display:flex;flex-direction:column;align-items:center;gap:10px;border:0;background:transparent;padding:10px 8px;border-radius:var(--r-md);scroll-snap-align:start;width:104px}
+.phone svg,.phone img{display:block;transition:transform .2s}
+.phone img{filter:drop-shadow(0 0 1px rgba(21,24,28,.35)) drop-shadow(0 6px 8px rgba(21,24,28,.14))}
+.phone:hover svg,.phone:hover img{transform:translateY(-4px)}
+.phone .nm{font-size:13px;font-weight:600;line-height:1.2;text-align:center}
+.phone[aria-pressed="true"]{background:#E7F1FD}
+.phone[aria-pressed="true"] .nm{color:var(--cobalt)}
+.shelf-note{font-size:13px;color:var(--muted);margin:0 0 14px}
+
+/* promises */
+.promises{display:grid;grid-template-columns:repeat(3,1fr);gap:0;margin:28px 0 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.promises div{padding:18px 20px 18px 0}
+.promises div+div{padding-left:20px;border-left:1px solid var(--line)}
+.promises b{display:block;font-size:16px}
+.promises span{font-size:14px;color:var(--muted)}
+
+/* catalog */
+.catalog{padding:48px 0 80px}
+.cat-head{display:flex;flex-wrap:wrap;align-items:end;justify-content:space-between;gap:16px;margin-bottom:22px}
+.cat-head h2{font-size:clamp(28px,3.6vw,40px);letter-spacing:-.02em;margin:0;font-weight:800;font-variation-settings:"wdth" 115}
+.chips{display:flex;gap:6px;flex-wrap:wrap}
+.chips button{border:1px solid var(--line);background:var(--card);border-radius:999px;padding:7px 14px;font-size:14px;font-weight:600}
+.chips button[aria-pressed="true"]{border-color:var(--cobalt);color:var(--cobalt);background:#E7F1FD}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:18px}
+.prod{background:var(--card);border-radius:var(--r-md);display:flex;flex-direction:column;overflow:hidden;border:1px solid var(--line)}
+.stage{position:relative;height:300px;overflow:hidden;display:grid;place-items:center;background:var(--stage,#E9ECEF)}
+.stage svg{filter:drop-shadow(0 14px 18px rgba(21,24,28,.16))}
+.price{position:absolute;z-index:2;right:14px;top:14px;background:var(--sticker);color:var(--ink);font-weight:850;font-size:22px;line-height:1;padding:10px 12px 9px;border-radius:var(--r-sm);transform:rotate(3deg);font-variation-settings:"wdth" 112;box-shadow:0 2px 0 rgba(0,0,0,.15)}
+.price small{font-size:12px;font-weight:700;margin-right:3px}
+.badge{position:absolute;z-index:2;left:14px;top:14px;background:var(--mint);color:var(--mint-ink);font-size:12px;font-weight:700;padding:4px 9px;border-radius:999px}
+.prod .body{padding:16px 16px 18px;display:flex;flex-direction:column;gap:10px;flex:1}
+.prod h3{margin:0;font-size:18px;font-weight:750;line-height:1.2}
+.prod .desc{margin:0;font-size:14px;color:var(--muted)}
+.swatches{display:flex;gap:8px;align-items:center}
+.sw{width:26px;height:26px;border-radius:50%;border:2px solid #fff;box-shadow:0 0 0 1px var(--line);padding:0}
+.sw[aria-pressed="true"]{box-shadow:0 0 0 2px var(--ink)}
+.swname{font-size:13px;color:var(--muted);margin-left:4px}
+.fits{font-size:13px;font-weight:600;color:var(--mint-ink)}
+.fits.none{color:var(--muted);font-weight:500}
+.add{margin-top:auto;border:0;border-radius:999px;background:var(--ink);color:#fff;padding:12px 16px;font-weight:700}
+.add:hover{background:#000}
+.add.ghost{background:transparent;color:var(--ink);box-shadow:inset 0 0 0 1.5px var(--ink)}
+.empty{padding:40px;text-align:center;background:var(--card);border-radius:var(--r-md);border:1px dashed var(--line)}
+
+/* how it works */
+.how{background:var(--ink);color:#fff;padding:64px 0}
+.how h2{font-size:clamp(28px,3.6vw,40px);margin:0 0 28px;letter-spacing:-.02em;font-variation-settings:"wdth" 115}
+.how ol{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,1fr);gap:28px;counter-reset:s}
+.how li{counter-increment:s;border-top:2px solid #3A4048;padding-top:16px}
+.how li::before{content:counter(s);display:block;font-size:44px;font-weight:850;color:var(--sticker);line-height:1;margin-bottom:10px;font-variation-settings:"wdth" 125}
+.how li b{display:block;font-size:18px;margin-bottom:4px}
+.how li span{color:#B9C0C9;font-size:15px}
+
+footer{padding:36px 0 48px;font-size:14px;color:var(--muted)}
+footer .wrap{display:flex;flex-wrap:wrap;gap:16px;justify-content:space-between}
+
+/* drawer */
+.scrim{position:fixed;inset:0;background:rgba(21,24,28,.45);opacity:0;pointer-events:none;transition:opacity .2s;z-index:40}
+.drawer{position:fixed;top:0;right:0;height:100%;width:min(440px,100%);background:var(--paper);z-index:50;transform:translateX(100%);transition:transform .25s ease;display:flex;flex-direction:column}
+body.open .scrim{opacity:1;pointer-events:auto}
+body.open .drawer{transform:none}
+.dr-head{display:flex;align-items:center;justify-content:space-between;padding:18px 20px;border-bottom:1px solid var(--line)}
+.dr-head h2{margin:0;font-size:20px}
+.x{border:0;background:transparent;font-size:26px;line-height:1;padding:4px 8px}
+.dr-body{flex:1;overflow:auto;padding:16px 20px}
+.line{display:grid;grid-template-columns:56px 1fr auto;gap:12px;align-items:center;padding:12px 0;border-bottom:1px solid var(--line)}
+.line .th{width:56px;height:72px;border-radius:10px;background:#E9ECEF;display:grid;place-items:center}
+.line b{display:block;font-size:15px}
+.line small{color:var(--muted);font-size:13px;display:block}
+.qty{display:inline-flex;align-items:center;border:1px solid var(--line);border-radius:999px;margin-top:6px}
+.qty button{border:0;background:transparent;width:30px;height:28px;font-size:16px}
+.qty span{min-width:20px;text-align:center;font-size:14px;font-weight:600}
+.line .amt{font-weight:700;text-align:right}
+.rm{display:block;border:0;background:none;color:var(--muted);font-size:12px;text-decoration:underline;padding:4px 0 0;margin-left:auto}
+form.checkout{display:grid;gap:12px;margin-top:20px}
+form.checkout h3{margin:8px 0 0;font-size:16px}
+label.f{display:grid;gap:5px;font-size:14px;font-weight:600}
+label.f input,label.f select,label.f textarea{font:inherit;font-weight:400;padding:11px 12px;border:1px solid var(--line);border-radius:10px;background:#fff;width:100%}
+label.f textarea{resize:vertical;min-height:60px}
+.err{color:#B3261E;font-size:13px;font-weight:500}
+.totals{border-top:1px solid var(--line);padding:16px 20px;display:grid;gap:6px;background:#fff}
+.totals .row{display:flex;justify-content:space-between;font-size:15px}
+.totals .row.big{font-size:20px;font-weight:800}
+.pay-note{font-size:13px;color:var(--muted);margin:2px 0 6px}
+.order{border:0;border-radius:999px;background:var(--cobalt-dk);color:#fff;font-weight:800;padding:14px 16px;font-size:16px;display:flex;align-items:center;justify-content:center;gap:10px}
+.order:hover{background:#1F63B8}
+.order:disabled{opacity:.7;cursor:wait}
+.order{text-decoration:none}
+.dr-empty{text-align:center;padding:48px 10px;color:var(--muted)}
+.toast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,120px);background:var(--ink);color:#fff;padding:12px 18px;border-radius:999px;font-weight:600;font-size:14px;z-index:60;transition:transform .25s,visibility .25s;visibility:hidden}
+.toast.show{transform:translate(-50%,0);visibility:visible}
+
+.sw.so{position:relative;opacity:.55}
+.sw.so::after{content:"";position:absolute;left:50%;top:-2px;bottom:-2px;width:2px;background:#fff;transform:translateX(-50%) rotate(45deg)}
+.prod.out .stage svg{opacity:.5}
+.badge.off{background:#E4E7EB;color:var(--muted)}
+.add:disabled{opacity:.55;cursor:not-allowed}
+.hint{font-weight:400;font-size:12.5px;color:var(--muted)}
+.eta{font-weight:600;font-size:13px;color:var(--mint-ink)}
+.line.gone{opacity:.6}
+.line em{color:#B3261E;font-style:normal;font-weight:600}
+.order.dark{background:var(--ink)}
+.order.dark:hover{background:#000}
+.order{width:100%}
+.placed{text-align:center;padding:18px 4px 8px}
+.placed .tick{width:64px;height:64px;border-radius:50%;background:var(--mint);color:var(--mint-ink);display:grid;place-items:center;margin:0 auto 14px}
+.placed h3{font-size:26px;margin:0;font-variation-settings:"wdth" 115}
+.placed .ref{margin:6px 0 12px;color:var(--muted)}
+.placed .ref b{color:var(--ink);font-size:17px}
+.placed p{font-size:15px}
+.placed-items{list-style:none;padding:0;margin:16px 0;text-align:left;border-top:1px solid var(--line)}
+.placed-items li{padding:10px 0;border-bottom:1px solid var(--line);display:flex;flex-direction:column}
+.placed-items small{color:var(--muted)}
+.placed-tot{display:flex;justify-content:space-between;gap:12px;font-size:15px;padding:4px 0;text-align:left}
+.placed-tot span:last-child{white-space:nowrap}
+.placed-tot.big{font-weight:800;font-size:18px}
+.preview-note{background:#FFF6D6;border-radius:10px;padding:10px 12px;font-size:13px!important;margin-top:14px}
+.wa-link{display:block;text-align:center;font-size:14px;font-weight:600;margin-top:4px}
+@media (max-width:760px){
+  nav.main span{display:none}
+  .promises{grid-template-columns:1fr}
+  .promises div,.promises div+div{padding:14px 0;border-left:0}
+  .promises div+div{border-top:1px solid var(--line)}
+  .how ol{grid-template-columns:1fr}
+  .picker{padding:18px 16px 4px;border-radius:20px}
+  .hero{padding-top:36px}
+  .cart-btn .lbl{display:none}
+}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="wrap">
+    <a class="logo" href="#">Phones<span>NBO</span></a>
+<span style="margin-right:auto"></span>
+    <button class="cart-btn" id="cartBtn" aria-label="Open cart">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M5 7h14l-1.2 11.2a2 2 0 0 1-2 1.8H8.2a2 2 0 0 1-2-1.8z"/><path d="M9 7V5.5a3 3 0 0 1 6 0V7"/></svg>
+      <span class="lbl">Cart</span><span class="cart-count" id="cartCount">0</span>
+    </button>
+  </div>
+</header>
+
+<main>
+  <section class="hero">
+    <div class="wrap">
+      <h1>Cases that fit your exact iPhone.</h1>
+      <p class="lead">Pick your iPhone below and we'll only show cases cut for it. Order here, get it today in Nairobi, pay when it arrives.</p>
+
+      <div class="picker" id="picker">
+        <div class="picker-head">
+          <h2>Which iPhone do you have?</h2>
+          <div class="picked" id="pickedLabel" aria-live="polite">No iPhone picked yet</div>
+        </div>
+        <div class="shelf" id="shelf" role="group" aria-label="Phone model"></div>
+        <p class="shelf-note">Shown to scale. Don't see yours? <a href="#" id="askModel" data-wa-ask target="_blank" rel="noopener">Ask us on WhatsApp</a> and we'll source it.</p>
+      </div>
+
+      <div class="promises">
+        <div><b>Pay on delivery</b><span>Cash or M-Pesa when the rider arrives.</span></div>
+        <div><b id="sameDayTitle">Same-day before 3pm</b><span id="sameDayLine">Order before 3pm and it arrives today.</span></div>
+        <div><b>Wrong fit? We swap it</b><span>Free exchange within 7 days, unused.</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="catalog" id="cases">
+    <div class="wrap">
+      <div class="cat-head">
+        <h2 id="catTitle">All cases</h2>
+        <div class="chips" role="group" aria-label="Case style" id="chips"></div>
+      </div>
+      <div class="grid" id="grid"></div>
+    </div>
+  </section>
+
+  <section class="how">
+    <div class="wrap">
+      <h2>How ordering works</h2>
+      <ol>
+        <li><b>Pick your iPhone and case</b><span>Choose a colour and add it to your cart. Add as many as you like.</span></li>
+        <li><b>Place your order</b><span>Add your delivery details and place the order. We call to confirm and send a rider, the same day if you order before 3pm.</span></li>
+        <li><b>Pay when it arrives</b><span>Check the fit, then pay the rider by cash or M-Pesa.</span></li>
+      </ol>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>© <span id="yr"></span> PhonesNBO, Nairobi · iPhone 17 Pro Max image: @strohmeier.dominic</span>
+    <span><a href="#" id="footWa" data-wa-hi target="_blank" rel="noopener">WhatsApp us</a></span>
+  </div>
+</footer>
+
+<div class="scrim" id="scrim"></div>
+<aside class="drawer" id="drawer" aria-label="Cart" aria-hidden="true">
+  <div class="dr-head"><h2 id="drTitle">Your cart</h2><button class="x" id="closeCart" aria-label="Close cart">×</button></div>
+  <div class="dr-body" id="drBody"></div>
+  <div class="totals" id="totals"></div>
+</aside>
+<div class="toast" id="toast" role="status"></div>
+
+<script src="catalog.js"></script>
+<script>
+/* Shop data comes from /api/catalog (prices, stock and fees set in /admin).
+   If the server isn't there (e.g. a static preview), it falls back to catalog.js. */
+const C = { currency:'KES', zones:[], models:[], products:[], settings:{} };
+let LIVE = false;
+
+const $ = s => document.querySelector(s);
+const fmt = n => C.currency + ' ' + Number(n).toLocaleString('en-KE');
+const esc = v => String(v ?? '').replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const store = {
+  get(k,d){ try{ const v = localStorage.getItem(k); return v ? JSON.parse(v) : d }catch(e){ return d } },
+  set(k,v){ try{ localStorage.setItem(k, JSON.stringify(v)) }catch(e){} }
+};
+const state = { model: store.get('pnbo_model', null), style:'All', color:{}, cart: store.get('pnbo_cart2', []), placed:null, busy:false };
+const model = id => C.models.find(m => m.id === id);
+const product = id => C.products.find(p => p.id === id);
+const fitsModel = (p, mid) => p.fits === 'all' || p.fits.includes(mid);
+const colorOf = (p, cid) => p.colors.find(c => c.id === cid) || p.colors[0];
+const waLink = t => `https://wa.me/${C.settings.whatsapp}?text=${encodeURIComponent(t)}`;
+const hourLabel = h => h === 0 ? 'midnight' : h === 12 ? 'noon' : h < 12 ? h + 'am' : (h - 12) + 'pm';
+
+/* Nairobi clock: same-day cutoff countdown */
+function cutoffInfo(){
+  const nbo = new Date(Date.now() + 3*3600e3), h = C.settings.cutoffHour ?? 15;
+  const days = C.settings.deliveryDays || [0,1,2,3,4,5,6];
+  const mins = (h*60) - (nbo.getUTCHours()*60 + nbo.getUTCMinutes());
+  const open = mins > 0 && days.includes(nbo.getUTCDay());
+  const left = open ? (mins >= 60 ? `${Math.floor(mins/60)}h ${mins%60}m` : `${mins} min`) : '';
+  return { open, left, hour: hourLabel(h) };
+}
+function renderCutoff(){
+  const ci = cutoffInfo();
+  $('#sameDayTitle').textContent = `Same-day before ${ci.hour}`;
+  $('#sameDayLine').textContent = ci.open ? `Order in the next ${ci.left} and it arrives today.` : `Order now and it arrives tomorrow.`;
+}
+
+/* ---------- drawings ---------- */
+function lensSet(cam, w, h){
+  const L = (x,y,r) => `<circle cx="${x}" cy="${y}" r="${r}" fill="#1A1D22" stroke="#4A515B" stroke-width="${r*.28}"/><circle cx="${x-r*.25}" cy="${y-r*.25}" r="${r*.22}" fill="#6C7A90" opacity=".7"/>`;
+  const u = w/72;
+  switch(cam){
+    case 'pro':  return `<rect x="${5*u}" y="${5*u}" width="${33*u}" height="${33*u}" rx="${8*u}" fill="rgba(255,255,255,.18)"/>` + L(14*u,14*u,6*u)+L(14*u,29*u,6*u)+L(29*u,21.5*u,6*u);
+    case 'duo':  return `<rect x="${5*u}" y="${5*u}" width="${28*u}" height="${28*u}" rx="${7*u}" fill="rgba(255,255,255,.18)"/>` + L(13*u,13*u,5.6*u)+L(25*u,25*u,5.6*u);
+    case 'duov': return `<rect x="${6*u}" y="${5*u}" width="${17*u}" height="${30*u}" rx="${8.5*u}" fill="rgba(255,255,255,.18)"/>` + L(14.5*u,13.5*u,5.4*u)+L(14.5*u,26.5*u,5.4*u);
+    case 'bar1': return `<rect x="${4*u}" y="${5*u}" width="${w-8*u}" height="${17*u}" rx="${8.5*u}" fill="rgba(255,255,255,.2)"/>` + L(14*u,13.5*u,5.2*u);
+    case 'bar':  return `<rect x="0" y="${12*u}" width="${w}" height="${18*u}" rx="${9*u}" fill="rgba(0,0,0,.22)"/>` + L(18*u,21*u,5*u)+L(31*u,21*u,5*u);
+    case 'plateau': return `<rect x="0" y="${4*u}" width="${w}" height="${36*u}" rx="${10*u}" fill="rgba(255,255,255,.16)"/>` + L(13*u,13*u,5.6*u)+L(13*u,30*u,5.6*u)+L(28*u,21.5*u,5.6*u);
+    case 'single': return L(12*u,12*u,5.6*u);
+    case 'col3': return L(13*u,13*u,5*u)+L(13*u,26*u,5*u)+L(13*u,39*u,5*u);
+    case 'col4': return L(13*u,12*u,5*u)+L(13*u,25*u,5*u)+L(13*u,38*u,5*u)+L(26*u,14*u,2.6*u);
+    case 'pill': return `<rect x="${6*u}" y="${5*u}" width="${15*u}" height="${40*u}" rx="${7.5*u}" fill="rgba(255,255,255,.18)"/>` + L(13.5*u,13*u,4.8*u)+L(13.5*u,25*u,4.8*u)+L(13.5*u,37*u,4.8*u);
+    case 'ring': return `<circle cx="${w/2}" cy="${24*u}" r="${17*u}" fill="rgba(255,255,255,.16)" stroke="rgba(255,255,255,.3)" stroke-width="${1.2*u}"/>` + L(w/2-7*u,18*u,5*u)+L(w/2+7*u,18*u,5*u)+L(w/2,30*u,5*u);
+    case 'sq':   return `<rect x="${5*u}" y="${5*u}" width="${30*u}" height="${30*u}" rx="${6*u}" fill="rgba(255,255,255,.18)"/>` + L(13.5*u,13.5*u,5*u)+L(26.5*u,13.5*u,5*u)+L(13.5*u,26.5*u,5*u);
+  }
+  return '';
+}
+/* silhouette for picker: px per mm */
+function phoneSVG(m, scale){
+  if (m.photo) return `<img src="${m.photo}" alt="" style="height:${m.h*scale}px;width:auto;object-fit:contain">`;
+  const w = m.w*scale, h = m.h*scale, r = Math.min(w,h)*.16;
+  return `<svg width="${w}" height="${h}" viewBox="0 0 ${m.w} ${m.h}" aria-hidden="true">
+    <rect x=".8" y=".8" width="${m.w-1.6}" height="${m.h-1.6}" rx="${m.w*.16}" fill="#2B3038" stroke="#15181C" stroke-width="1.6"/>
+    ${lensSet(m.cam, m.w, m.h)}</svg>`;
+}
+/* case drawing on the product card */
+function caseSVG(p, m, color, px){
+  if (color.img) return `<img src="${color.img}" alt="${p.name} in ${color.n}" style="height:${px}px;width:auto;max-width:100%;object-fit:contain">`;
+  const W = m.w, H = m.h, rad = W*.17, scale = px / H;
+  const clear = p.style === 'Clear' || (p.style === 'MagSafe' && color.n === 'Clear');
+  const fill = clear ? 'rgba(214,226,236,.55)' : color.c;
+  const edge = clear ? 'rgba(120,140,160,.55)' : 'rgba(0,0,0,.25)';
+  let extra = '';
+  if (p.style === 'MagSafe') extra += `<circle cx="${W/2}" cy="${H*.55}" r="${W*.3}" fill="none" stroke="${clear?'rgba(80,90,105,.55)':'rgba(255,255,255,.28)'}" stroke-width="${W*.035}"/><rect x="${W/2-W*.02}" y="${H*.55+W*.3}" width="${W*.04}" height="${W*.12}" fill="${clear?'rgba(80,90,105,.55)':'rgba(255,255,255,.28)'}"/>`;
+  if (p.style === 'Leather') extra += `<rect x="${W*.07}" y="${W*.07}" width="${W*.86}" height="${H-W*.14}" rx="${rad*.8}" fill="none" stroke="rgba(255,255,255,.35)" stroke-width=".7" stroke-dasharray="2 1.6"/>`;
+  if (p.style === 'Wallet') extra += `<rect x="${W*.16}" y="${H*.58}" width="${W*.68}" height="${H*.3}" rx="${W*.06}" fill="rgba(0,0,0,.18)"/><rect x="${W*.16}" y="${H*.58}" width="${W*.68}" height="${H*.05}" rx="${W*.02}" fill="rgba(255,255,255,.18)"/>`;
+  if (p.style === 'Rugged') {
+    const c = W*.2;
+    [[0,0],[W-c,0],[0,H-c],[W-c,H-c]].forEach(([x,y]) => extra += `<rect x="${x}" y="${y}" width="${c}" height="${c}" rx="${c*.45}" fill="rgba(0,0,0,.28)"/>`);
+    extra += `<rect x="${W*.3}" y="${H*.5}" width="${W*.4}" height="${W*.02}" fill="rgba(255,255,255,.18)"/><rect x="${W*.3}" y="${H*.53}" width="${W*.4}" height="${W*.02}" fill="rgba(255,255,255,.18)"/>`;
+  }
+  const phoneBody = clear ? `<rect x="${W*.05}" y="${W*.05}" width="${W*.9}" height="${H-W*.1}" rx="${rad*.85}" fill="#3A404A"/>` : '';
+  const sheen = `<path d="M${W*.62} 2 L${W*.95} 2 L${W*.2} ${H-2} L0 ${H-2} Z" fill="rgba(255,255,255,${clear?.25:.07})"/>`;
+  return `<svg width="${W*scale}" height="${px}" viewBox="0 0 ${W} ${H}" aria-hidden="true">
+    <defs><clipPath id="cl-${p.id}"><rect width="${W}" height="${H}" rx="${rad}"/></clipPath></defs>
+    ${phoneBody}
+    <g clip-path="url(#cl-${p.id})"><rect width="${W}" height="${H}" fill="${fill}"/>${extra}${sheen}</g>
+    <rect x=".5" y=".5" width="${W-1}" height="${H-1}" rx="${rad}" fill="none" stroke="${edge}" stroke-width="1"/>
+    ${lensSet(m.cam, W, H)}</svg>`;
+}
+const stageBg = c => { // pale tint of the case colour for the photo stage
+  const h = c.replace('#',''); const n = parseInt(h,16); const r=n>>16,g=(n>>8)&255,b=n&255;
+  const mix = v => Math.round(v*.18 + 236*.82); return `rgb(${mix(r)},${mix(g)},${mix(b)})`;
+};
+
+/* ---------- picker ---------- */
+function renderShelf(){
+  $('#shelf').innerHTML = C.models.map(m => `<button type="button" class="phone" data-m="${m.id}" aria-pressed="${m.id===state.model}">
+      ${phoneSVG(m, .82)}<span class="nm">${m.name}</span></button>`).join('');
+}
+function renderPicked(){
+  const m = model(state.model);
+  $('#pickedLabel').innerHTML = m ? `Showing cases for <b>${m.name}</b> · <a href="#" id="clearModel">change</a>` : 'No iPhone picked yet';
+  $('#catTitle').textContent = m ? `Cases for ${m.name}` : 'All cases';
+}
+
+/* ---------- catalog ---------- */
+function renderChips(){
+  const styles = ['All', ...new Set(C.products.map(p => p.style))];
+  $('#chips').innerHTML = styles.map(s => `<button type="button" data-s="${s}" aria-pressed="${s===state.style}">${s}</button>`).join('');
+}
+function renderGrid(){
+  const m = model(state.model);
+  const show = C.products.filter(p => (state.style==='All' || p.style===state.style) && (!m || fitsModel(p, m.id)));
+  if (!show.length){
+    $('#grid').innerHTML = `<div class="empty"><b>No ${state.style==='All'?'':state.style.toLowerCase()+' '}cases for ${m ? m.name : 'this phone'} yet.</b><br>
+      <a href="${waLink(`Hi PhonesNBO, do you have ${state.style==='All'?'':state.style.toLowerCase()+' '}cases for ${m?m.name:'my phone'}?`)}" target="_blank" rel="noopener">Ask us on WhatsApp</a> and we'll source one, or <a href="#" data-allstyles>see every style</a>.</div>`;
+    return;
+  }
+  const drawModel = m || model('ip16p') || C.models[0];
+  $('#grid').innerHTML = show.map(p => {
+    const col = colorOf(p, state.color[p.id] || (p.colors.find(c => !c.soldOut) || p.colors[0]).id);
+    const allOut = p.colors.every(c => c.soldOut);
+    const btn = allOut ? `<button type="button" class="add ghost" disabled>Sold out</button>`
+      : !m ? `<button type="button" class="add ghost" data-add="${p.id}">Pick your iPhone first</button>`
+      : col.soldOut ? `<button type="button" class="add ghost" disabled>${col.n} is sold out</button>`
+      : `<button type="button" class="add" data-add="${p.id}">Add to cart</button>`;
+    return `<article class="prod${allOut?' out':''}" style="--stage:${stageBg(col.c)}">
+      <div class="stage">${allOut ? `<span class="badge off">Sold out</span>` : p.tag ? `<span class="badge">${esc(p.tag)}</span>` : ''}<span class="price"><small>${C.currency}</small>${p.price.toLocaleString('en-KE')}</span>${caseSVG(p, drawModel, col, 230)}</div>
+      <div class="body">
+        <h3>${esc(p.name)}</h3>
+        <p class="desc">${esc(p.desc)}</p>
+        <div class="swatches" role="group" aria-label="Colour">
+          ${p.colors.map(c => `<button type="button" class="sw${c.soldOut?' so':''}" style="background:${c.c}" data-p="${p.id}" data-c="${c.id}" aria-pressed="${c.id===col.id}" aria-label="${esc(c.n)}${c.soldOut?' (sold out)':''}"></button>`).join('')}
+          <span class="swname">${esc(col.n)}${col.soldOut ? ' · sold out' : ''}</span>
+        </div>
+        <div class="fits ${m?'':'none'}">${m ? `Fits ${m.name}` : (p.fits==='all' ? 'Fits every iPhone listed' : `Fits ${p.fits.length} iPhone models`)}</div>
+        ${btn}
+      </div></article>`;
+  }).join('');
+}
+
+/* ---------- cart ---------- */
+const saveCart = () => { store.set('pnbo_cart2', state.cart); renderCart(); };
+function addToCart(pid){
+  const p = product(pid), m = model(state.model);
+  const col = colorOf(p, state.color[pid] || (p.colors.find(c => !c.soldOut) || p.colors[0]).id);
+  if (col.soldOut) return toast(`${col.n} is sold out`);
+  const key = `${pid}|${m.id}|${col.id}`;
+  const ex = state.cart.find(l => l.key === key);
+  if (ex) ex.qty = Math.min(ex.qty + 1, 20); else state.cart.push({ key, pid, mid:m.id, cid:col.id, qty:1 });
+  state.placed = null; saveCart(); toast(`Added ${p.name} for ${m.name}`);
+}
+function cartLines(){
+  return state.cart.map(l => {
+    const p = product(l.pid), m = model(l.mid);
+    if (!p || !m) return null;
+    const col = p.colors.find(c => c.id === l.cid); if (!col) return null;
+    return { ...l, p, m, col, unit:p.price };
+  }).filter(Boolean);
+}
+function deliveryText(zone){
+  if (!zone) return '';
+  const d = CATALOG.deliveryFor(new Date(), C.settings, zone);
+  if (d.courier) return 'Sent by courier, usually 1–2 days. Pay on delivery.';
+  const ci = cutoffInfo();
+  return d.sameDay ? `Arrives today. Order in the next ${ci.left} to keep same-day.` : `Arrives ${d.label}. Same-day orders close at ${ci.hour}.`;
+}
+function renderCart(){
+  const lines = cartLines();
+  $('#cartCount').textContent = lines.reduce((a,l) => a+l.qty, 0);
+  $('#drTitle').textContent = state.placed ? 'Order placed' : 'Your cart';
+  if (state.placed) return renderPlaced();
+  if (!lines.length){
+    $('#drBody').innerHTML = `<div class="dr-empty"><b>Your cart is empty.</b><br>Pick your iPhone, then add a case.</div>`;
+    $('#totals').innerHTML = `<button type="button" class="order dark" data-close>Browse cases</button>`;
+    return;
+  }
+  const sub = lines.reduce((a,l) => a + l.unit*l.qty, 0);
+  const f = store.get('pnbo_form', {});
+  const zone = C.zones.find(z => z.id === f.zone);
+  const anyOut = lines.some(l => l.col.soldOut || l.p.soldOut);
+  $('#drBody').innerHTML = lines.map(l => `<div class="line${l.col.soldOut?' gone':''}">
+      <div class="th">${caseSVG(l.p, l.m, l.col, 60)}</div>
+      <div><b>${esc(l.p.name)}</b><small>${esc(l.m.name)} · ${esc(l.col.n)}${l.col.soldOut?' · <em>sold out</em>':''}</small>
+        <div class="qty"><button type="button" data-dec="${l.key}" aria-label="One less">−</button><span>${l.qty}</span><button type="button" data-inc="${l.key}" aria-label="One more">+</button></div></div>
+      <div class="amt">${fmt(l.unit*l.qty)}<button type="button" class="rm" data-rm="${l.key}">Remove</button></div>
+    </div>`).join('') + `
+    <form class="checkout" id="checkout" novalidate>
+      <h3>Delivery details</h3>
+      <label class="f">Your name<input name="name" autocomplete="name" value="${esc(f.name)}" required></label>
+      <label class="f">Phone number<input name="phone" type="tel" autocomplete="tel" inputmode="tel" placeholder="07XX XXX XXX" value="${esc(f.phone)}" required>
+        <span class="hint">We'll call this number to confirm and when the rider is close.</span></label>
+      <label class="f">Delivery area<select name="zone" required>
+        <option value="">Choose your area</option>
+        ${C.zones.map(z => `<option value="${z.id}" ${z.id===f.zone?'selected':''}>${esc(z.name)} — ${fmt(z.fee)}</option>`).join('')}
+      </select><span class="eta" id="eta">${esc(deliveryText(zone))}</span></label>
+      <label class="f">Exact location<input name="location" placeholder="Building, street or landmark" value="${esc(f.location)}" required></label>
+      <label class="f">Note for the rider (optional)<textarea name="note" placeholder="Gate code, best time to call…">${esc(f.note)}</textarea></label>
+      <div class="err" id="formErr" aria-live="polite">${anyOut ? 'Something in your cart is sold out. Remove it to continue.' : ''}</div>
+    </form>`;
+  $('#totals').innerHTML = `
+    <div class="row"><span>Cases</span><span>${fmt(sub)}</span></div>
+    <div class="row"><span>Delivery</span><span>${zone ? fmt(zone.fee) : 'Choose area'}</span></div>
+    <div class="row big"><span>Total</span><span>${fmt(sub + (zone ? zone.fee : 0))}</span></div>
+    <p class="pay-note">Pay on delivery by cash or M-Pesa. Nothing is charged now.</p>
+    <button type="submit" form="checkout" class="order" id="placeBtn" ${state.busy?'disabled':''}>${state.busy ? 'Placing order…' : `Place order · ${fmt(sub + (zone ? zone.fee : 0))}`}</button>`;
+}
+function renderPlaced(){
+  const o = state.placed;
+  $('#drBody').innerHTML = `<div class="placed">
+      <div class="tick" aria-hidden="true"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div>
+      <h3>${o.courier ? 'Order placed' : o.sameDay ? 'Arriving today' : `Arriving ${esc(o.deliveryLabel)}`}</h3>
+      <p class="ref">Order <b>${esc(o.ref)}</b></p>
+      <p>We'll call you shortly to confirm${o.courier ? ' and arrange the courier' : ', then send a rider'}. Pay ${fmt(o.total)} by cash or M-Pesa when it arrives.</p>
+      <ul class="placed-items">${o.items.map(i => `<li><span>${i.qty} × ${esc(i.name)}</span><small>${esc(i.model)} · ${esc(i.color)}</small></li>`).join('')}</ul>
+      <div class="placed-tot"><span>Delivery to ${esc(o.zone)}</span><span>${fmt(o.deliveryFee)}</span></div>
+      <div class="placed-tot big"><span>Total on delivery</span><span>${fmt(o.total)}</span></div>
+      ${o.preview ? `<p class="preview-note">This is a preview, so the order wasn't sent. Orders go through once the site is live.</p>` : ''}
+    </div>`;
+  $('#totals').innerHTML = `<button type="button" class="order dark" data-done>Keep shopping</button>
+    <a class="wa-link" href="${waLink(`Hi PhonesNBO, about my order ${o.ref}`)}" target="_blank" rel="noopener">Questions? WhatsApp us about ${esc(o.ref)}</a>`;
+}
+
+function validate(d){
+  const phoneOk = /^(\+?254|0)?[17]\d{8}$/.test((d.phone||'').replace(/[\s-]/g,''));
+  return !d.name.trim() ? 'Add your name.' : !phoneOk ? 'Add a valid Kenyan phone number, like 0712 345 678.'
+    : !d.zone ? 'Choose your delivery area.' : !d.location.trim() ? 'Add your exact location so the rider can find you.' : '';
+}
+async function placeOrder(form){
+  if (state.busy) return;
+  const d = Object.fromEntries(new FormData(form));
+  const lines = cartLines();
+  if (lines.some(l => l.col.soldOut)) { $('#formErr').textContent = 'Something in your cart is sold out. Remove it to continue.'; return; }
+  const err = validate(d); if (err){ $('#formErr').textContent = err; return; }
+  const payload = { ...d, items: lines.map(l => ({ pid:l.pid, mid:l.mid, cid:l.cid, qty:l.qty })) };
+  state.busy = true; renderCart();
+  let order = null, msg = '';
+  if (LIVE){
+    try{
+      const r = await fetch('/api/orders', { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(payload) });
+      const j = await r.json().catch(() => ({}));
+      if (r.ok) order = j.order; else msg = j.error || 'Your order didn’t go through. Try again.';
+    }catch(e){ msg = 'No connection. Check your internet and try again.'; }
+  } else {
+    const zone = C.zones.find(z => z.id === d.zone), del = CATALOG.deliveryFor(new Date(), C.settings, zone);
+    const sub = lines.reduce((a,l) => a + l.unit*l.qty, 0);
+    order = { ref:'PN-PREVIEW', preview:true, items: lines.map(l => ({ qty:l.qty, name:l.p.name, model:l.m.name, color:l.col.n })),
+      subtotal:sub, deliveryFee:zone.fee, total:sub+zone.fee, zone:zone.name, deliveryLabel:del.label, sameDay:del.sameDay, courier:del.courier };
+  }
+  state.busy = false;
+  if (!order){ renderCart(); $('#formErr').textContent = msg; return; }
+  state.placed = order; state.cart = []; store.set('pnbo_cart2', []);
+  const f = store.get('pnbo_form', {}); store.set('pnbo_form', { name:f.name, phone:f.phone, zone:f.zone, location:f.location });
+  renderCart(); $('#drawer .dr-body').scrollTop = 0;
+}
+
+/* ---------- ui plumbing ---------- */
+let tt; function toast(t){ const el=$('#toast'); el.textContent=t; el.classList.add('show'); clearTimeout(tt); tt=setTimeout(()=>el.classList.remove('show'),2600); }
+function openCart(){ document.body.classList.add('open'); $('#drawer').setAttribute('aria-hidden','false'); $('#closeCart').focus(); }
+function closeCart(){ document.body.classList.remove('open'); $('#drawer').setAttribute('aria-hidden','true'); $('#cartBtn').focus(); }
+function renderAll(){ renderShelf(); renderPicked(); renderChips(); renderGrid(); renderCart(); renderCutoff(); }
+
+document.addEventListener('click', e => {
+  const t = e.target.closest('button, a'); if (!t) return;
+  if (t.dataset.m){
+    state.model = state.model === t.dataset.m ? null : t.dataset.m; store.set('pnbo_model', state.model);
+    renderShelf(); renderPicked(); renderGrid();
+    if (state.model && window.innerWidth < 760) $('#cases').scrollIntoView({behavior:'smooth'});
+    return;
+  }
+  if (t.id === 'clearModel'){ e.preventDefault(); state.model=null; store.set('pnbo_model',null); renderShelf(); renderPicked(); renderGrid(); return; }
+  if (t.dataset.s){ state.style = t.dataset.s; renderChips(); renderGrid(); return; }
+  if (t.dataset.p){ state.color[t.dataset.p] = t.dataset.c; renderGrid(); return; }
+  if (t.dataset.add){
+    if (!state.model){ $('#picker').scrollIntoView({behavior:'smooth', block:'start'}); toast('Pick your iPhone so we send the right fit'); return; }
+    addToCart(t.dataset.add); return;
+  }
+  if (t.hasAttribute('data-allstyles')){ e.preventDefault(); state.style='All'; renderChips(); renderGrid(); return; }
+  if (t.id === 'cartBtn'){ openCart(); return; }
+  if (t.id === 'closeCart' || t.hasAttribute('data-close')){ closeCart(); return; }
+  if (t.hasAttribute('data-done')){ state.placed = null; renderCart(); closeCart(); return; }
+  const k = t.dataset.inc || t.dataset.dec || t.dataset.rm;
+  if (k){
+    const l = state.cart.find(x => x.key === k); if (!l) return;
+    if (t.dataset.inc) l.qty = Math.min(l.qty + 1, 20);
+    else if (t.dataset.dec) l.qty--;
+    if (t.dataset.rm || l.qty < 1) state.cart = state.cart.filter(x => x.key !== k);
+    saveCart();
+  }
+});
+$('#scrim').addEventListener('click', closeCart);
+document.addEventListener('keydown', e => { if (e.key==='Escape' && document.body.classList.contains('open')) closeCart(); });
+function saveForm(){ const f = $('#checkout'); if (f) store.set('pnbo_form', Object.fromEntries(new FormData(f))); }
+document.addEventListener('input', e => { if (e.target.closest('#checkout')){ saveForm(); if ($('#formErr')) $('#formErr').textContent=''; } });
+document.addEventListener('change', e => {
+  if (e.target.name === 'zone'){
+    saveForm();
+    const sel = e.target.value;
+    renderCart();
+    const z = document.querySelector('#checkout select[name=zone]'); if (z) { z.value = sel; z.focus(); }
+  }
+});
+document.addEventListener('submit', e => { if (e.target.id==='checkout'){ e.preventDefault(); placeOrder(e.target); } });
+
+async function boot(){
+  let data = null;
+  try{
+    const r = await fetch('/api/catalog', { cache:'no-store' });
+    if (r.ok && (r.headers.get('content-type')||'').includes('json')) { data = await r.json(); LIVE = true; }
+  }catch(e){}
+  Object.assign(C, data || CATALOG.apply({}));
+  if (!model(state.model)) state.model = null;
+  $('#yr').textContent = new Date().getFullYear();
+  $('#askModel').href = waLink("Hi PhonesNBO, do you have cases for my phone? It's a ");
+  $('#footWa').href = waLink('Hi PhonesNBO');
+  renderAll();
+  setInterval(() => { renderCutoff(); const eta = $('#eta'), zs = $('#checkout select[name=zone]'); if (eta && zs) eta.textContent = deliveryText(C.zones.find(z => z.id === zs.value)); }, 30e3);
+}
+boot();
+</script>
+</body>
+</html>

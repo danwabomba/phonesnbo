@@ -1,0 +1,9 @@
+{
+  "name": "phonesnbo",
+  "version": "1.0.0",
+  "private": true,
+  "description": "PhonesNBO storefront — cases first",
+  "main": "server.js",
+  "scripts": { "start": "node server.js" },
+  "engines": { "node": ">=18" }
+}

@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>PhonesNBO Admin</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#F2F4F6; --card:#fff; --ink:#15181C; --muted:#5B6470; --line:#DDE1E6;
+  --blue:#3B8EF0; --blue-dk:#2A78D6; --blue-bg:#E7F1FD; --sticker:#FFD23F;
+  --new:#2A78D6; --new-bg:#E7F1FD; --conf:#7A4FD0; --conf-bg:#F0EAFB; --out:#B26A00; --out-bg:#FFF2DC;
+  --done:#11643A; --done-bg:#DDF3E5; --cancel:#8A9099; --cancel-bg:#EEF0F2; --danger:#B3261E;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:'Archivo',system-ui,sans-serif;font-size:15px;line-height:1.45}
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--blue);outline-offset:2px;border-radius:4px}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+.hidden{display:none!important}
+
+/* login */
+.login{min-height:100vh;display:grid;place-items:center;padding:20px}
+.login form{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:32px;width:min(380px,100%);display:grid;gap:14px}
+.login h1{margin:0;font-size:24px;font-variation-settings:"wdth" 125;font-weight:900}
+.login h1 span,.brand span{color:var(--blue)}
+.login p{margin:0;color:var(--muted)}
+
+/* shell */
+.shell{display:grid;grid-template-columns:220px 1fr;min-height:100vh}
+aside.side{background:var(--ink);color:#fff;padding:20px 14px;display:flex;flex-direction:column;gap:4px;position:sticky;top:0;height:100vh}
+.brand{font-weight:900;font-size:20px;font-variation-settings:"wdth" 125;padding:4px 10px 18px}
+.brand small{display:block;font-weight:500;font-size:12px;color:#9AA3AD;font-variation-settings:"wdth" 100}
+.nav button{display:flex;align-items:center;justify-content:space-between;width:100%;text-align:left;background:none;border:0;color:#C9CFD6;padding:10px 12px;border-radius:10px;font-weight:600}
+.nav button:hover{background:#22272E;color:#fff}
+.nav button[aria-current="page"]{background:#2B313A;color:#fff}
+.nav .pill{background:var(--blue);color:#fff;border-radius:999px;font-size:12px;padding:1px 8px;min-width:22px;text-align:center}
+.side .grow{flex:1}
+.side .foot{font-size:13px;color:#9AA3AD;padding:10px 12px;display:grid;gap:8px}
+.side .foot a,.side .foot button{color:#C9CFD6;background:none;border:0;padding:0;text-align:left;text-decoration:underline}
+main{padding:28px 32px 60px;min-width:0}
+.head{display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between;margin-bottom:20px}
+.head h1{margin:0;font-size:28px;letter-spacing:-.02em;font-variation-settings:"wdth" 112}
+.head .sub{color:var(--muted);font-size:14px}
+.demo{background:#FFF6D6;border:1px solid #F2DE96;border-radius:12px;padding:10px 14px;margin-bottom:18px;font-size:14px}
+
+/* generic */
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px}
+.btn{border:1px solid var(--line);background:var(--card);border-radius:10px;padding:8px 14px;font-weight:600;font-size:14px;text-decoration:none;display:inline-flex;align-items:center;gap:6px}
+.btn:hover{border-color:#B9C0C9}
+.btn.primary{background:var(--blue-dk);border-color:var(--blue-dk);color:#fff}
+.btn.primary:hover{background:#1F63B8}
+.btn.dark{background:var(--ink);border-color:var(--ink);color:#fff}
+.btn.danger{color:var(--danger)}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+input.in,select.in,textarea.in{border:1px solid var(--line);border-radius:10px;padding:9px 11px;background:#fff;width:100%}
+label.f{display:grid;gap:5px;font-weight:600;font-size:14px}
+.err{color:var(--danger);font-size:13px;min-height:1em}
+.status{display:inline-block;border-radius:999px;padding:3px 10px;font-size:12.5px;font-weight:700;white-space:nowrap}
+.s-new{background:var(--new-bg);color:var(--new)}
+.s-confirmed{background:var(--conf-bg);color:var(--conf)}
+.s-out{background:var(--out-bg);color:var(--out)}
+.s-delivered{background:var(--done-bg);color:var(--done)}
+.s-cancelled{background:var(--cancel-bg);color:var(--cancel)}
+.tag{display:inline-block;font-size:12px;font-weight:700;border-radius:6px;padding:2px 7px;background:var(--sticker);color:var(--ink)}
+.tag.late{background:#FDE3E1;color:var(--danger)}
+.tag.paid{background:var(--done-bg);color:var(--done)}
+.muted{color:var(--muted)}
+.toast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,120px);visibility:hidden;background:var(--ink);color:#fff;padding:11px 18px;border-radius:999px;font-weight:600;font-size:14px;z-index:90;transition:transform .25s,visibility .25s}
+.toast.show{transform:translate(-50%,0);visibility:visible}
+
+/* overview */
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:22px}
+.stat{padding:18px}
+.stat .n{font-size:30px;font-weight:850;font-variation-settings:"wdth" 112;line-height:1.1}
+.stat .l{color:var(--muted);font-size:14px}
+.stat.hl{background:var(--ink);color:#fff;border-color:var(--ink)}
+.stat.hl .l{color:#B9C0C9}
+.two{display:grid;grid-template-columns:1.4fr 1fr;gap:18px}
+.panel{padding:18px}
+.panel h2{margin:0 0 12px;font-size:17px}
+.mini{width:100%;border-collapse:collapse}
+.mini td{padding:10px 6px;border-top:1px solid var(--line);vertical-align:top;font-size:14px}
+.mini tr{cursor:pointer}
+.mini tr:hover td{background:#F7F8FA}
+.bars{display:flex;align-items:flex-end;gap:8px;height:140px;padding-top:10px}
+.bars div{flex:1;display:flex;flex-direction:column;align-items:center;gap:6px;height:100%;justify-content:flex-end}
+.bars i{display:block;width:100%;background:var(--blue);border-radius:6px 6px 2px 2px;min-height:3px}
+.bars span{font-size:11.5px;color:var(--muted)}
+.bars b{font-size:11.5px}
+.empty{padding:26px;text-align:center;color:var(--muted)}
+
+/* orders */
+.toolbar{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-bottom:14px}
+.tabs{display:flex;gap:4px;flex-wrap:wrap}
+.tabs button{border:1px solid var(--line);background:var(--card);border-radius:999px;padding:6px 12px;font-size:13.5px;font-weight:600}
+.tabs button[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:#fff}
+.tabs button .c{opacity:.7;margin-left:4px;font-weight:500}
+.toolbar .search{flex:1;min-width:200px}
+.toolbar select{width:auto}
+table.orders{width:100%;border-collapse:collapse;background:var(--card);border:1px solid var(--line);border-radius:16px;overflow:hidden}
+table.orders th{text-align:left;font-size:13px;color:var(--muted);font-weight:600;padding:11px 12px;border-bottom:1px solid var(--line);background:#FAFBFC}
+table.orders td{padding:12px;border-bottom:1px solid var(--line);vertical-align:top;font-size:14px}
+table.orders tr.row{cursor:pointer}
+table.orders tr.row:hover td{background:#F7F8FA}
+table.orders tr.sel td{background:var(--blue-bg)!important}
+table.orders .ref{font-weight:800}
+table.orders .num{text-align:right;white-space:nowrap;font-weight:700}
+
+/* order drawer */
+.scrim{position:fixed;inset:0;background:rgba(21,24,28,.35);z-index:40;opacity:0;pointer-events:none;transition:opacity .2s}
+.drawer{position:fixed;top:0;right:0;height:100%;width:min(480px,100%);background:var(--paper);z-index:50;transform:translateX(100%);transition:transform .25s;display:flex;flex-direction:column}
+body.dopen .scrim{opacity:1;pointer-events:auto}
+body.dopen .drawer{transform:none}
+.dhead{display:flex;align-items:center;justify-content:space-between;padding:16px 20px;border-bottom:1px solid var(--line);background:var(--card)}
+.dhead h2{margin:0;font-size:20px}
+.x{border:0;background:none;font-size:26px;line-height:1;padding:2px 8px}
+.dbody{flex:1;overflow:auto;padding:18px 20px;display:grid;gap:14px;align-content:start}
+.box{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px 16px}
+.box h3{margin:0 0 8px;font-size:14px;color:var(--muted);font-weight:600}
+.cust b{font-size:17px}
+.cust .acts{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
+.items{list-style:none;margin:0;padding:0}
+.items li{display:flex;justify-content:space-between;gap:10px;padding:7px 0;border-bottom:1px solid var(--line)}
+.items li:last-child{border-bottom:0}
+.items small{display:block;color:var(--muted)}
+.sum{display:flex;justify-content:space-between;padding:3px 0}
+.sum.big{font-weight:800;font-size:17px;padding-top:8px}
+.flow{display:grid;gap:8px}
+.flow .next{width:100%;justify-content:center;padding:12px;font-size:15px}
+.flow .row2{display:flex;gap:8px;flex-wrap:wrap}
+.paybox{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.hist{list-style:none;margin:0;padding:0;font-size:13.5px}
+.hist li{padding:5px 0 5px 16px;position:relative}
+.hist li::before{content:"";position:absolute;left:2px;top:12px;width:7px;height:7px;border-radius:50%;background:var(--blue)}
+
+/* products & delivery */
+.grid-cards{display:grid;gap:14px}
+.prod{padding:16px 18px;display:grid;grid-template-columns:1fr auto;gap:12px 18px;align-items:start}
+.prod h3{margin:0;font-size:17px}
+.prod .meta{color:var(--muted);font-size:13.5px}
+.prod .ctrls{display:flex;gap:16px;align-items:center;flex-wrap:wrap}
+.prod .price{display:flex;align-items:center;gap:6px}
+.prod .price input{width:110px}
+.colours{grid-column:1/-1;display:flex;gap:8px;flex-wrap:wrap}
+.chip{display:inline-flex;align-items:center;gap:7px;border:1px solid var(--line);border-radius:999px;padding:5px 11px 5px 6px;font-size:13.5px;background:#fff}
+.chip i{width:18px;height:18px;border-radius:50%;box-shadow:inset 0 0 0 1px rgba(0,0,0,.12)}
+.chip.off{opacity:.55;text-decoration:line-through}
+.switch{display:inline-flex;align-items:center;gap:8px;font-size:14px;font-weight:600;cursor:pointer;user-select:none}
+.switch input{appearance:none;width:38px;height:22px;border-radius:999px;background:#C9CFD6;position:relative;cursor:pointer;transition:background .15s;margin:0}
+.switch input::after{content:"";position:absolute;top:3px;left:3px;width:16px;height:16px;border-radius:50%;background:#fff;transition:left .15s}
+.switch input:checked{background:var(--done)}
+.switch input:checked::after{left:19px}
+.models{display:flex;flex-wrap:wrap;gap:8px;padding:16px 18px}
+.savebar{position:sticky;bottom:0;margin-top:18px;background:var(--ink);color:#fff;border-radius:14px;padding:12px 14px 12px 18px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.savebar .btn:not(.primary){color:var(--ink)}
+.zone{display:grid;grid-template-columns:1fr 140px auto;gap:14px;align-items:center;padding:14px 18px;border-top:1px solid var(--line)}
+.zone:first-of-type{border-top:0}
+.zone .fee{display:flex;align-items:center;gap:6px}
+.days{display:flex;gap:6px;flex-wrap:wrap}
+.days label{border:1px solid var(--line);border-radius:999px;padding:6px 12px;font-size:13.5px;font-weight:600;cursor:pointer;background:#fff}
+.days input{display:none}
+.days label:has(input:checked){background:var(--ink);color:#fff;border-color:var(--ink)}
+.set{padding:18px;display:grid;gap:14px;max-width:560px}
+
+@media (max-width:980px){
+  .stats{grid-template-columns:repeat(2,1fr)}
+  .two{grid-template-columns:1fr}
+}
+@media (max-width:760px){
+  .shell{grid-template-columns:1fr;grid-template-rows:auto 1fr}
+  aside.side{position:sticky;top:0;height:auto;flex-direction:row;align-items:center;padding:10px 12px;z-index:30;overflow-x:auto;gap:2px}
+  .brand{padding:0 10px 0 4px;font-size:17px}
+  .brand small,.side .grow,.side .foot{display:none}
+  .nav{display:flex;gap:2px}
+  .nav button{white-space:nowrap;padding:8px 10px;gap:6px}
+  main{padding:20px 14px 60px}
+  table.orders thead{display:none}
+  table.orders,table.orders tbody,table.orders tr,table.orders td{display:block;width:100%}
+  table.orders tr.row{border-bottom:1px solid var(--line);padding:10px 12px;display:grid;grid-template-columns:1fr auto;gap:2px 10px}
+  table.orders td{border:0;padding:0}
+  table.orders td.c-items,table.orders td.c-area{display:none}
+  table.orders td:nth-child(2),table.orders td:nth-child(6){text-align:right}
+  table.orders td.num{grid-column:1/-1;text-align:left;margin-top:4px}
+  .zone{grid-template-columns:1fr;gap:8px}
+  .prod{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<div class="login hidden" id="login">
+  <form id="loginForm">
+    <h1>Phones<span>NBO</span> admin</h1>
+    <p>Log in to see orders.</p>
+    <label class="f">Password<input class="in" type="password" name="password" autocomplete="current-password" required autofocus></label>
+    <div class="err" id="loginErr" aria-live="polite"></div>
+    <button class="btn primary" style="justify-content:center;padding:11px">Log in</button>
+  </form>
+</div>
+
+<div class="shell hidden" id="app">
+  <aside class="side">
+    <div class="brand">Phones<span>NBO</span><small>Admin</small></div>
+    <nav class="nav" aria-label="Dashboard sections">
+      <button data-view="overview">Overview</button>
+      <button data-view="orders">Orders <span class="pill" id="newPill"></span></button>
+      <button data-view="products">Products</button>
+      <button data-view="delivery">Delivery</button>
+      <button data-view="settings">Settings</button>
+    </nav>
+    <div class="grow"></div>
+    <div class="foot">
+      <a href="/" target="_blank" rel="noopener">View shop</a>
+      <button id="logout">Log out</button>
+    </div>
+  </aside>
+  <main id="main"></main>
+</div>
+
+<div class="scrim" id="scrim"></div>
+<aside class="drawer" id="drawer" aria-hidden="true" aria-label="Order details">
+  <div class="dhead"><h2 id="dTitle">Order</h2><button class="x" id="dClose" aria-label="Close">×</button></div>
+  <div class="dbody" id="dBody"></div>
+</aside>
+<div class="toast" id="toast" role="status"></div>
+
+<script src="catalog.js"></script>
+<script>
+const $ = s => document.querySelector(s);
+const esc = v => String(v ?? '').replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const KES = n => 'KES ' + Number(n || 0).toLocaleString('en-KE');
+const STATUS = { new:'New', confirmed:'Confirmed', out:'Out for delivery', delivered:'Delivered', cancelled:'Cancelled' };
+const NEXT = { new:['confirmed','Confirm order'], confirmed:['out','Send out for delivery'], out:['delivered','Mark delivered'] };
+const nboDate = (d = new Date()) => new Date(d.getTime() + 3*3600e3).toISOString().slice(0,10);
+const addDays = (iso, n) => new Date(Date.parse(iso) + n*864e5).toISOString().slice(0,10);
+const timeNbo = iso => new Date(iso).toLocaleTimeString('en-KE', { hour:'numeric', minute:'2-digit', timeZone:'Africa/Nairobi' });
+const dateNbo = iso => new Date(iso).toLocaleDateString('en-KE', { day:'numeric', month:'short', timeZone:'Africa/Nairobi' });
+function dayLabel(iso){
+  const t = nboDate(); if (iso === t) return 'Today'; if (iso === addDays(t,1)) return 'Tomorrow'; if (iso === addDays(t,-1)) return 'Yesterday';
+  return new Date(iso + 'T00:00:00Z').toLocaleDateString('en-KE', { weekday:'short', day:'numeric', month:'short', timeZone:'UTC' });
+}
+const phoneIntl = p => '254' + String(p).replace(/^0/, '');
+
+const S = { view: (location.hash || '#overview').slice(1), orders: [], settings: {}, base: null, demo: false,
+  filter: 'open', when: 'all', q: '', openId: null, draft: null, dirty: false, lastNewCount: null };
+
+/* ---------- API (with a sample-data preview when there's no server) ---------- */
+async function call(method, url, body){
+  if (S.demo) return demoApi(method, url, body);
+  const r = await fetch(url, { method, headers: body ? {'Content-Type':'application/json'} : {}, body: body ? JSON.stringify(body) : undefined, credentials:'same-origin' });
+  const j = await r.json().catch(() => ({}));
+  if (r.status === 401 && !url.endsWith('/login')) { showLogin(); throw new Error(j.error || 'Log in again.'); }
+  if (!r.ok) throw new Error(j.error || 'Something went wrong.');
+  return j;
+}
+function demoOrders(){
+  const t = nboDate(), mk = (ref, hAgo, name, phone, zone, items, status, deliverOn, paid, pm) => {
+    const z = CATALOG.zones.find(x => x.id === zone);
+    const its = items.map(([pid,cid,mid,qty]) => { const p = CATALOG.products.find(x=>x.id===pid), c = p.colors.find(x=>x.id===cid), m = CATALOG.models.find(x=>x.id===mid);
+      return { pid, cid, mid, name:p.name, color:c.n, model:m.name, qty, unit:p.price, total:p.price*qty }; });
+    const sub = its.reduce((a,i)=>a+i.total,0), at = new Date(Date.now()-hAgo*3600e3).toISOString();
+    return { id:ref, ref, createdAt:at, customer:{ name, phone, location:'Near ' + z.name.split(',')[0] + ' stage', note:'' }, zone:{ id:z.id, name:z.name, fee:z.fee },
+      items:its, subtotal:sub, deliveryFee:z.fee, total:sub+z.fee, deliverOn, deliveryLabel:'', sameDay:deliverOn===t, courier:!z.sameDay,
+      status, paid, payMethod:pm, adminNote:'', history:[{ at, status:'new' }] };
+  };
+  return [
+    mk('PN-1012', .3, 'Wanjiru Kamau', '0722118844', 'inner', [['silicone','sage','ip16p',1]], 'new', t, false, ''),
+    mk('PN-1011', 1.2, 'Brian Otieno', '0711455120', 'cbd', [['rugged','black','ip15pm',1],['clear','clear','ip13',1]], 'confirmed', t, false, ''),
+    mk('PN-1010', 2.5, 'Amina Hassan', '0745332901', 'outer', [['leather','tan','ip17pm',1]], 'out', t, false, ''),
+    mk('PN-1009', 4, 'Kevin Mwangi', '0790210077', 'metro', [['magclear','clear','ip16',2]], 'delivered', t, true, 'mpesa'),
+    mk('PN-1008', 20, 'Faith Njeri', '0700884512', 'inner', [['wallet','burgundy','ip14',1]], 'delivered', addDays(t,-1), true, 'cash'),
+    mk('PN-1007', 22, 'Dennis Kiprop', '0733019922', 'upc', [['clear','clear','ip12',1]], 'confirmed', addDays(t,1), false, ''),
+    mk('PN-1006', 30, 'Mercy Achieng', '0768440021', 'cbd', [['silicone','pink','ip16pl',1]], 'cancelled', addDays(t,-1), false, ''),
+    mk('PN-1005', 50, 'Joseph Ndungu', '0712900334', 'outer', [['rugged','olive','ip17p',1]], 'delivered', addDays(t,-2), true, 'mpesa'),
+    mk('PN-1004', 74, 'Lucy Wairimu', '0723667810', 'inner', [['silicone','midnight','ip15',1],['clear','clear','ip15',1]], 'delivered', addDays(t,-3), true, 'cash'),
+  ];
+}
+let DEMO = null;
+function demoApi(method, url, body){
+  DEMO = DEMO || { orders: demoOrders(), settings: {} };
+  if (url === '/api/admin/orders') return { orders: DEMO.orders };
+  if (url === '/api/admin/settings' && method === 'GET') return { settings: DEMO.settings, base: { zones: CATALOG.zones, models: CATALOG.models, products: CATALOG.products, defaults: CATALOG.defaults } };
+  if (url === '/api/admin/settings' && method === 'PUT') { DEMO.settings = body; return { settings: body }; }
+  const m = url.match(/\/api\/admin\/orders\/(.+)$/);
+  if (m) { const o = DEMO.orders.find(x => x.id === m[1]);
+    if (body.status && body.status !== o.status) { o.status = body.status; o.history.push({ at:new Date().toISOString(), status:body.status }); }
+    ['paid','payMethod','adminNote'].forEach(k => { if (body[k] !== undefined) o[k] = body[k]; }); return { order:o }; }
+  return {};
+}
+
+/* ---------- boot / auth ---------- */
+async function boot(){
+  try{
+    const r = await fetch('/api/admin/me', { credentials:'same-origin' });
+    const isJson = (r.headers.get('content-type') || '').includes('json');
+    if (!isJson) { S.demo = true; return start(); }
+    if (r.ok) return start();
+    showLogin();
+  }catch(e){ S.demo = true; start(); }
+}
+function showLogin(){ $('#app').classList.add('hidden'); $('#login').classList.remove('hidden'); }
+$('#loginForm').addEventListener('submit', async e => {
+  e.preventDefault(); $('#loginErr').textContent = '';
+  try{ await call('POST', '/api/admin/login', { password: e.target.password.value }); e.target.reset(); start(); }
+  catch(err){ $('#loginErr').textContent = err.message; }
+});
+$('#logout').addEventListener('click', async () => { if (!S.demo) await call('POST','/api/admin/logout').catch(()=>{}); showLogin(); });
+
+async function start(){
+  $('#login').classList.add('hidden'); $('#app').classList.remove('hidden');
+  await Promise.all([loadOrders(), loadSettings()]);
+  render();
+  clearInterval(S.timer); S.timer = setInterval(async () => { await loadOrders(true); if (!S.dirty) renderView(); }, 30e3);
+}
+async function loadOrders(quiet){
+  try{
+    const j = await call('GET', '/api/admin/orders'); S.orders = j.orders || [];
+    const n = S.orders.filter(o => o.status === 'new').length;
+    if (quiet && S.lastNewCount !== null && n > S.lastNewCount) { toast('New order in'); try{ navigator.vibrate && navigator.vibrate(150); }catch(e){} }
+    S.lastNewCount = n;
+    $('#newPill').textContent = n || ''; $('#newPill').classList.toggle('hidden', !n);
+    document.title = (n ? `(${n}) ` : '') + 'PhonesNBO Admin';
+    if (S.openId) renderDrawer();
+  }catch(e){ if (!quiet) toast(e.message); }
+}
+async function loadSettings(){ const j = await call('GET', '/api/admin/settings'); S.settings = j.settings || {}; S.base = j.base; S.draft = null; S.dirty = false; }
+
+/* ---------- views ---------- */
+function render(){
+  document.querySelectorAll('.nav button').forEach(b => b.setAttribute('aria-current', b.dataset.view === S.view ? 'page' : 'false'));
+  renderView();
+}
+function renderView(){
+  const v = { overview, orders, products, delivery, settings }[S.view] || overview;
+  $('#main').innerHTML = (S.demo ? `<div class="demo"><b>Preview with sample orders.</b> Once the site is live on Railway, this shows your real orders and saves your changes.</div>` : '') + v();
+}
+function header(title, sub, right = ''){ return `<div class="head"><div><h1>${title}</h1>${sub ? `<div class="sub">${sub}</div>` : ''}</div><div>${right}</div></div>`; }
+function statusPill(s){ return `<span class="status s-${s}">${STATUS[s]}</span>`; }
+function itemsShort(o){ const n = o.items.reduce((a,i)=>a+i.qty,0); return `${n} item${n>1?'s':''}`; }
+function isLate(o){ return ['new','confirmed','out'].includes(o.status) && o.deliverOn < nboDate(); }
+
+function overview(){
+  const t = nboDate(), placedToday = S.orders.filter(o => nboDate(new Date(o.createdAt)) === t && o.status !== 'cancelled');
+  const due = S.orders.filter(o => ['new','confirmed','out'].includes(o.status) && o.deliverOn <= t);
+  const newOnes = S.orders.filter(o => o.status === 'new');
+  const deliveredToday = S.orders.filter(o => o.status === 'delivered' && o.history.some(h => h.status === 'delivered' && nboDate(new Date(h.at)) === t));
+  const cashToday = deliveredToday.reduce((a,o)=>a+o.total,0);
+  // last 7 days of order value (by placed date, excluding cancelled)
+  const days = [...Array(7)].map((_,i) => addDays(t, i-6));
+  const vals = days.map(d => S.orders.filter(o => o.status !== 'cancelled' && nboDate(new Date(o.createdAt)) === d).reduce((a,o)=>a+o.total,0));
+  const max = Math.max(...vals, 1);
+  const ci = (() => { const nbo = new Date(Date.now()+3*3600e3), h = (S.settings.cutoffHour ?? CATALOG.defaults.cutoffHour); const m = h*60 - (nbo.getUTCHours()*60+nbo.getUTCMinutes());
+    return m > 0 ? `Same-day orders close in ${Math.floor(m/60)}h ${m%60}m` : `Same-day orders closed at ${h > 12 ? h-12+'pm' : h+'am'}. New orders go out tomorrow.`; })();
+  return header('Today', ci) + `
+    <div class="stats">
+      <div class="card stat hl"><div class="n">${due.length}</div><div class="l">To deliver today${due.some(isLate)?` · ${due.filter(isLate).length} late`:''}</div></div>
+      <div class="card stat"><div class="n">${newOnes.length}</div><div class="l">New, waiting for a call</div></div>
+      <div class="card stat"><div class="n">${placedToday.length}</div><div class="l">Orders placed today · ${KES(placedToday.reduce((a,o)=>a+o.total,0))}</div></div>
+      <div class="card stat"><div class="n">${KES(cashToday)}</div><div class="l">Collected today (${deliveredToday.length} delivered)</div></div>
+    </div>
+    <div class="two">
+      <div class="card panel"><h2>Deliver today</h2>${due.length ? `<table class="mini">${due.map(o => `<tr data-open="${o.id}">
+          <td><b>${o.ref}</b><br><span class="muted">${esc(o.customer.name)}</span></td>
+          <td>${esc(o.zone.name.split(',')[0])}<br><span class="muted">${itemsShort(o)}</span></td>
+          <td>${statusPill(o.status)} ${isLate(o)?'<span class="tag late">Late</span>':''}</td>
+          <td style="text-align:right"><b>${KES(o.total)}</b></td></tr>`).join('')}</table>` : `<div class="empty">Nothing left to deliver today.</div>`}</div>
+      <div class="card panel"><h2>Order value, last 7 days</h2>
+        <div class="bars">${days.map((d,i) => `<div><b>${vals[i] ? (vals[i]/1000).toFixed(1)+'k' : ''}</b><i style="height:${Math.round(vals[i]/max*100)}%"></i><span>${i===6?'Today':new Date(d+'T00:00:00Z').toLocaleDateString('en-KE',{weekday:'short',timeZone:'UTC'})}</span></div>`).join('')}</div>
+        <h2 style="margin-top:20px">Top cases this week</h2>${topCases()}</div>
+    </div>`;
+}
+function topCases(){
+  const since = addDays(nboDate(), -6), count = {};
+  S.orders.filter(o => o.status !== 'cancelled' && nboDate(new Date(o.createdAt)) >= since).forEach(o => o.items.forEach(i => { const k = i.name; count[k] = (count[k]||0) + i.qty; }));
+  const top = Object.entries(count).sort((a,b)=>b[1]-a[1]).slice(0,5);
+  return top.length ? `<table class="mini">${top.map(([n,q]) => `<tr style="cursor:default"><td>${esc(n)}</td><td style="text-align:right"><b>${q}</b> sold</td></tr>`).join('')}</table>` : `<div class="empty">No sales yet this week.</div>`;
+}
+
+function orders(){
+  const t = nboDate();
+  const counts = { open: 0, new: 0, confirmed: 0, out: 0, delivered: 0, cancelled: 0, all: S.orders.length };
+  S.orders.forEach(o => { counts[o.status]++; if (['new','confirmed','out'].includes(o.status)) counts.open++; });
+  const tabs = [['open','Open'],['new','New'],['confirmed','Confirmed'],['out','Out for delivery'],['delivered','Delivered'],['cancelled','Cancelled'],['all','All']];
+  const q = S.q.toLowerCase().replace(/\s/g,'');
+  const list = S.orders.filter(o =>
+    (S.filter === 'all' || (S.filter === 'open' ? ['new','confirmed','out'].includes(o.status) : o.status === S.filter)) &&
+    (S.when === 'all' || (S.when === 'today' ? o.deliverOn === t : S.when === 'tomorrow' ? o.deliverOn === addDays(t,1) : isLate(o))) &&
+    (!q || (o.ref + o.customer.name + o.customer.phone + o.customer.location).toLowerCase().replace(/\s/g,'').includes(q)));
+  return header('Orders', `${counts.open} open · ${counts.new} new`, `<a class="btn" href="${S.demo ? '#' : '/api/admin/orders.csv'}" ${S.demo?'aria-disabled="true"':''}>Download CSV</a>`) + `
+    <div class="toolbar">
+      <div class="tabs" role="group" aria-label="Status">${tabs.map(([k,l]) => `<button data-filter="${k}" aria-pressed="${S.filter===k}">${l}<span class="c">${counts[k]}</span></button>`).join('')}</div>
+    </div>
+    <div class="toolbar">
+      <input class="in search" id="q" type="search" placeholder="Search name, phone, order number or location" value="${esc(S.q)}">
+      <select class="in" id="when" aria-label="Delivery day">
+        ${[['all','Any delivery day'],['today','Deliver today'],['tomorrow','Deliver tomorrow'],['late','Late']].map(([k,l]) => `<option value="${k}" ${S.when===k?'selected':''}>${l}</option>`).join('')}
+      </select>
+    </div>
+    ${list.length ? `<table class="orders"><thead><tr><th>Order</th><th>Customer</th><th class="c-area">Area</th><th class="c-items">Items</th><th>Deliver</th><th>Status</th><th style="text-align:right">Total</th></tr></thead><tbody>
+      ${list.map(o => `<tr class="row ${S.openId===o.id?'sel':''}" data-open="${o.id}">
+        <td><span class="ref">${o.ref}</span><br><span class="muted">${dateNbo(o.createdAt)}, ${timeNbo(o.createdAt)}</span></td>
+        <td>${esc(o.customer.name)}<br><span class="muted">${esc(o.customer.phone)}</span></td>
+        <td class="c-area">${esc(o.zone.name.split(',')[0])}</td>
+        <td class="c-items">${o.items.map(i => `${i.qty}× ${esc(i.name)}<br><span class="muted">${esc(i.model)} · ${esc(i.color)}</span>`).join('<br>')}</td>
+        <td>${dayLabel(o.deliverOn)} ${isLate(o)?'<span class="tag late">Late</span>':''}${o.courier?'<br><span class="muted">Courier</span>':''}</td>
+        <td>${statusPill(o.status)}${o.paid?' <span class="tag paid">Paid</span>':''}</td>
+        <td class="num">${KES(o.total)}</td></tr>`).join('')}</tbody></table>`
+      : `<div class="card empty">${S.orders.length ? 'No orders match. Try another tab or clear the search.' : 'No orders yet. They show up here as soon as someone orders on the site.'}</div>`}`;
+}
+
+/* ---------- order drawer ---------- */
+function openOrder(id){ S.openId = id; renderDrawer(); document.body.classList.add('dopen'); $('#drawer').setAttribute('aria-hidden','false'); if (S.view === 'orders') renderView(); }
+function closeOrder(){ S.openId = null; document.body.classList.remove('dopen'); $('#drawer').setAttribute('aria-hidden','true'); if (S.view === 'orders') renderView(); }
+function renderDrawer(){
+  const o = S.orders.find(x => x.id === S.openId); if (!o) return;
+  $('#dTitle').innerHTML = `${o.ref} ${statusPill(o.status)}`;
+  const nx = NEXT[o.status];
+  const wa = `https://wa.me/${phoneIntl(o.customer.phone)}?text=${encodeURIComponent(`Hi ${o.customer.name.split(' ')[0]}, this is PhonesNBO about your order ${o.ref}.`)}`;
+  $('#dBody').innerHTML = `
+    <div class="box cust">
+      <b>${esc(o.customer.name)}</b><div>${esc(o.customer.phone)}</div>
+      <div class="muted" style="margin-top:6px">${esc(o.customer.location)}<br>${esc(o.zone.name)}</div>
+      ${o.customer.note ? `<div style="margin-top:8px"><b style="font-size:14px">Note:</b> ${esc(o.customer.note)}</div>` : ''}
+      <div class="acts"><a class="btn" href="tel:${esc(o.customer.phone)}">Call</a><a class="btn" href="${wa}" target="_blank" rel="noopener">WhatsApp</a></div>
+    </div>
+    <div class="box"><h3>Delivery</h3>
+      <div><b>${dayLabel(o.deliverOn)}</b> ${isLate(o)?'<span class="tag late">Late</span>':''} ${o.courier ? '· by courier' : o.sameDay ? '· same-day order' : ''}</div>
+      <div class="muted" style="font-size:13.5px">Placed ${dateNbo(o.createdAt)} at ${timeNbo(o.createdAt)}</div>
+    </div>
+    <div class="box"><h3>Items</h3>
+      <ul class="items">${o.items.map(i => `<li><div>${i.qty} × ${esc(i.name)}<small>${esc(i.model)} · ${esc(i.color)}</small></div><div>${KES(i.total)}</div></li>`).join('')}</ul>
+      <div class="sum" style="margin-top:8px"><span>Cases</span><span>${KES(o.subtotal)}</span></div>
+      <div class="sum"><span>Delivery</span><span>${KES(o.deliveryFee)}</span></div>
+      <div class="sum big"><span>Collect on delivery</span><span>${KES(o.total)}</span></div>
+    </div>
+    <div class="box flow"><h3>Status</h3>
+      ${nx ? `<button class="btn primary next" data-status="${nx[0]}">${nx[1]}</button>` : ''}
+      ${o.status === 'out' || o.status === 'delivered' ? `<div class="paybox"><span style="font-weight:600;font-size:14px">Paid by</span>
+        ${[['mpesa','M-Pesa'],['cash','Cash']].map(([k,l]) => `<button class="btn ${o.payMethod===k?'dark':''}" data-pay="${k}">${l}</button>`).join('')}
+        ${o.paid ? '<span class="tag paid">Paid</span>' : '<span class="muted" style="font-size:13px">Not paid yet</span>'}</div>` : ''}
+      <div class="row2">
+        ${o.status !== 'cancelled' && o.status !== 'delivered' ? `<button class="btn danger" data-status="cancelled">Cancel order</button>` : ''}
+        ${o.status === 'cancelled' || o.status === 'delivered' ? `<button class="btn" data-status="${o.status==='cancelled'?'new':'out'}">${o.status==='cancelled'?'Reopen order':'Undo delivered'}</button>` : ''}
+      </div>
+    </div>
+    <div class="box"><h3>Your note (only you see this)</h3>
+      <textarea class="in" id="adminNote" rows="3" placeholder="Rider name, what the customer said…">${esc(o.adminNote)}</textarea>
+      <div style="margin-top:8px"><button class="btn" id="saveNote">Save note</button></div>
+    </div>
+    <div class="box"><h3>History</h3><ul class="hist">${o.history.map(h => `<li>${STATUS[h.status]} · ${dateNbo(h.at)}, ${timeNbo(h.at)}</li>`).join('')}</ul></div>`;
+}
+async function patchOrder(body, msg){
+  try{
+    const j = await call('PATCH', `/api/admin/orders/${S.openId}`, body);
+    const i = S.orders.findIndex(x => x.id === S.openId); S.orders[i] = j.order;
+    const n = S.orders.filter(o => o.status === 'new').length; $('#newPill').textContent = n || ''; $('#newPill').classList.toggle('hidden', !n);
+    renderDrawer(); renderView(); if (msg) toast(msg);
+  }catch(e){ toast(e.message); }
+}
+
+/* ---------- products / delivery / settings (edit a draft, then save) ---------- */
+function draft(){ if (!S.draft) S.draft = JSON.parse(JSON.stringify(Object.assign({ prices:{}, hidden:{}, soldOut:{}, zoneFees:{}, zoneOff:{}, hiddenModels:{} }, S.settings))); return S.draft; }
+function markDirty(){ S.dirty = true; const b = $('#saveBar'); if (b) b.classList.remove('hidden'); }
+function saveBar(){ return `<div class="savebar ${S.dirty?'':'hidden'}" id="saveBar"><span>You have unsaved changes.</span><span style="display:flex;gap:8px"><button class="btn" id="discard">Discard</button><button class="btn primary" id="saveSettings">Save changes</button></span></div>`; }
+
+function products(){
+  const d = draft(), base = S.base || { products: CATALOG.products, models: CATALOG.models };
+  return header('Products', 'Change prices, mark colours sold out, or hide a case. Changes show on the shop after you save.') +
+    `<div class="grid-cards">${base.products.map(p => {
+      const price = d.prices[p.id] ?? p.price, out = !!d.soldOut[p.id], hid = !!d.hidden[p.id];
+      return `<div class="card prod">
+        <div><h3>${esc(p.name)}</h3><div class="meta">${esc(p.style)} · ${p.fits === 'all' ? 'all models' : p.fits.length + ' models'}${d.prices[p.id] !== undefined && d.prices[p.id] !== p.price ? ` · was ${KES(p.price)}` : ''}</div></div>
+        <div class="ctrls">
+          <label class="price">KES <input class="in" type="number" min="0" step="50" value="${price}" data-price="${p.id}" aria-label="Price for ${esc(p.name)}"></label>
+          <label class="switch"><input type="checkbox" data-instock="${p.id}" ${out?'':'checked'}> In stock</label>
+          <label class="switch"><input type="checkbox" data-visible="${p.id}" ${hid?'':'checked'}> On shop</label>
+        </div>
+        <div class="colours">${p.colors.map(c => { const k = p.id + ':' + c.id, off = out || !!d.soldOut[k];
+          return `<button class="chip ${off?'off':''}" data-colour="${k}" ${out?'disabled':''} title="${off?'Sold out — tap to mark in stock':'In stock — tap to mark sold out'}"><i style="background:${c.c}"></i>${esc(c.n)}${off?' · sold out':''}</button>`; }).join('')}</div>
+      </div>`; }).join('')}
+    <div class="card"><div class="panel" style="padding-bottom:0"><h2>iPhone models on the shop</h2><div class="muted" style="font-size:14px">Tap a model to hide it from the picker.</div></div>
+      <div class="models">${base.models.map(m => { const off = !!d.hiddenModels[m.id];
+        return `<button class="chip ${off?'off':''}" data-model="${m.id}">${esc(m.name)}${off?' · hidden':''}</button>`; }).join('')}</div></div>
+    </div>` + saveBar();
+}
+function delivery(){
+  const d = draft(), base = S.base || { zones: CATALOG.zones }, cut = d.cutoffHour ?? CATALOG.defaults.cutoffHour, days = d.deliveryDays || CATALOG.defaults.deliveryDays;
+  const names = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+  return header('Delivery', 'Fees per area, the same-day cutoff and which days you deliver.') + `
+    <div class="card" style="margin-bottom:16px">
+      ${base.zones.map(z => `<div class="zone">
+        <div><b>${esc(z.name)}</b><div class="muted" style="font-size:13px">${z.sameDay ? 'Same-day rider' : 'Courier, 1–2 days'}</div></div>
+        <label class="fee">KES <input class="in" type="number" min="0" step="50" value="${d.zoneFees[z.id] ?? z.fee}" data-fee="${z.id}" aria-label="Fee for ${esc(z.name)}"></label>
+        <label class="switch"><input type="checkbox" data-zoneon="${z.id}" ${d.zoneOff[z.id]?'':'checked'}> On</label>
+      </div>`).join('')}
+    </div>
+    <div class="card set">
+      <label class="f">Same-day cutoff
+        <select class="in" id="cutoff" style="max-width:220px">${[...Array(13)].map((_,i) => i+10).map(h => `<option value="${h}" ${h===cut?'selected':''}>Orders before ${h===12?'noon':h>12?(h-12)+'pm':h+'am'}</option>`).join('')}</select>
+        <span class="muted" style="font-weight:400;font-size:13px">Orders after this go out the next delivery day.</span></label>
+      <div class="f">Delivery days<div class="days">${names.map((n,i) => `<label><input type="checkbox" data-day="${i}" ${days.includes(i)?'checked':''}>${n}</label>`).join('')}</div></div>
+    </div>` + saveBar();
+}
+function settings(){
+  const d = draft();
+  return header('Settings', '') + `<div class="card set">
+      <label class="f">Shop WhatsApp number<input class="in" id="wa" inputmode="tel" placeholder="0712 345 678" value="${esc(d.whatsapp ? '0' + String(d.whatsapp).replace(/^254/,'') : '')}">
+        <span class="muted" style="font-weight:400;font-size:13px">Customers use this for questions. Orders come into this dashboard.</span></label>
+    </div>` + saveBar();
+}
+
+async function saveSettings(){
+  try{
+    const j = await call('PUT', '/api/admin/settings', S.draft);
+    S.settings = j.settings; S.draft = null; S.dirty = false; renderView(); toast('Saved. The shop is updated.');
+  }catch(e){ toast(e.message); }
+}
+
+/* ---------- events ---------- */
+document.addEventListener('click', e => {
+  const t = e.target.closest('button, a, tr[data-open]'); if (!t) return;
+  if (t.dataset.view){ if (S.dirty && !confirmLeave()) return; S.view = t.dataset.view; history.replaceState(null,'','#'+S.view); render(); return; }
+  if (t.dataset.open){ openOrder(t.dataset.open); return; }
+  if (t.dataset.filter){ S.filter = t.dataset.filter; renderView(); return; }
+  if (t.id === 'dClose'){ closeOrder(); return; }
+  if (t.dataset.status){
+    const s = t.dataset.status, body = { status: s };
+    patchOrder(body, { confirmed:'Order confirmed', out:'Marked out for delivery', delivered:'Marked delivered', cancelled:'Order cancelled', new:'Order reopened' }[s]); return;
+  }
+  if (t.dataset.pay){ patchOrder({ payMethod: t.dataset.pay, paid: true }, 'Payment recorded'); return; }
+  if (t.id === 'saveNote'){ patchOrder({ adminNote: $('#adminNote').value }, 'Note saved'); return; }
+  if (t.dataset.colour){ const d = draft(); d.soldOut[t.dataset.colour] = !d.soldOut[t.dataset.colour]; if (!d.soldOut[t.dataset.colour]) delete d.soldOut[t.dataset.colour]; markDirty(); renderView(); return; }
+  if (t.dataset.model){ const d = draft(); d.hiddenModels[t.dataset.model] = !d.hiddenModels[t.dataset.model]; if (!d.hiddenModels[t.dataset.model]) delete d.hiddenModels[t.dataset.model]; markDirty(); renderView(); return; }
+  if (t.id === 'saveSettings'){ saveSettings(); return; }
+  if (t.id === 'discard'){ S.draft = null; S.dirty = false; renderView(); return; }
+  if (t.getAttribute('aria-disabled') === 'true'){ e.preventDefault(); toast('CSV download works once the site is live.'); }
+});
+function confirmLeave(){ S.draft = null; S.dirty = false; toast('Unsaved changes discarded'); return true; }
+document.addEventListener('input', e => {
+  const el = e.target;
+  if (el.id === 'q'){ S.q = el.value; const pos = el.selectionStart; renderView(); const n = $('#q'); n.focus(); n.setSelectionRange(pos,pos); return; }
+  const d = S.view === 'orders' || S.view === 'overview' ? null : draft();
+  if (!d) return;
+  if (el.dataset.price !== undefined){ const v = Math.round(Number(el.value)); if (v >= 0) d.prices[el.dataset.price] = v; markDirty(); }
+  if (el.dataset.fee !== undefined){ const v = Math.round(Number(el.value)); if (v >= 0) d.zoneFees[el.dataset.fee] = v; markDirty(); }
+  if (el.id === 'wa'){ d.whatsapp = el.value; markDirty(); }
+});
+document.addEventListener('change', e => {
+  const el = e.target;
+  if (el.id === 'when'){ S.when = el.value; renderView(); return; }
+  if (S.view === 'orders' || S.view === 'overview') return;
+  const d = draft();
+  if (el.dataset.instock){ if (el.checked) delete d.soldOut[el.dataset.instock]; else d.soldOut[el.dataset.instock] = true; markDirty(); renderView(); }
+  if (el.dataset.visible){ if (el.checked) delete d.hidden[el.dataset.visible]; else d.hidden[el.dataset.visible] = true; markDirty(); }
+  if (el.dataset.zoneon){ if (el.checked) delete d.zoneOff[el.dataset.zoneon]; else d.zoneOff[el.dataset.zoneon] = true; markDirty(); }
+  if (el.id === 'cutoff'){ d.cutoffHour = Number(el.value); markDirty(); }
+  if (el.dataset.day !== undefined){ const set = new Set(d.deliveryDays || CATALOG.defaults.deliveryDays); el.checked ? set.add(+el.dataset.day) : set.delete(+el.dataset.day); d.deliveryDays = [...set].sort(); markDirty(); }
+});
+$('#scrim').addEventListener('click', closeOrder);
+document.addEventListener('keydown', e => { if (e.key === 'Escape' && S.openId) closeOrder(); });
+window.addEventListener('beforeunload', e => { if (S.dirty) { e.preventDefault(); e.returnValue = ''; } });
+
+let tt; function toast(m){ const el = $('#toast'); el.textContent = m; el.classList.add('show'); clearTimeout(tt); tt = setTimeout(() => el.classList.remove('show'), 2400); }
+boot();
+</script>
+</body>
+</html>
