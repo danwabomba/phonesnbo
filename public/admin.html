@@ -417,7 +417,7 @@ $('#logout').addEventListener('click', async () => { if (!S.demo) await call('PO
 
 async function start(){
   $('#login').classList.add('hidden'); $('#app').classList.remove('hidden');
-  await Promise.all([loadOrders(), loadSettings(), reloadCatalog()]);
+  await Promise.all([loadOrders(), loadSettings().catch(e => toast(e.message)), reloadCatalog().catch(() => { S.catalog = null; })]);
   if (S.view === 'product') S.view = 'products';
   render();
   clearInterval(S.timer); S.timer = setInterval(async () => { await loadOrders(true); const editing = S.dirty || S.edit || S.medit; if (!editing) { await reloadCatalog().catch(()=>{}); S.sdraft = null; renderView(); } }, 30e3);
@@ -442,10 +442,14 @@ function render(){
   renderView();
 }
 function renderView(){
+  const needsCatalog = ['products','product','stock','models'].includes(S.view);
+  if (needsCatalog && !S.catalog) { $('#main').innerHTML = outdated(); return; }
   const v = { overview, orders, products, product: productEdit, stock, models, delivery, settings }[S.view] || overview;
   if (S.view === 'product' && !S.edit) { S.view = 'products'; return renderView(); }
-  const low = lowStock().filter(r => r.n === 0).length; $('#lowPill').textContent = low || ''; $('#lowPill').classList.toggle('hidden', !low);
+  const low = S.catalog ? lowStock().filter(r => r.n === 0).length : 0; $('#lowPill').textContent = low || ''; $('#lowPill').classList.toggle('hidden', !low);
+  try{
   $('#main').innerHTML = (S.demo ? `<div class="demo"><b>Preview with sample orders.</b> Once the site is live on Railway, this shows your real orders and saves your changes.</div>` : '') + v();
+  }catch(err){ console.error(err); $('#main').innerHTML = `<div class="card empty"><b>This page hit an error.</b><br>${esc(err.message)}<br><br>Refresh the page. If it keeps happening, send a screenshot of this.</div>`; }
 }
 function header(title, sub, right = ''){ return `<div class="head"><div><h1>${title}</h1>${sub ? `<div class="sub">${sub}</div>` : ''}</div><div>${right}</div></div>`; }
 function statusPill(s){ return `<span class="status s-${s}">${STATUS[s]}</span>`; }
@@ -491,6 +495,7 @@ function topCases(){
 }
 
 function lowPanel(){
+  if (!S.catalog) return `<div class="empty" style="padding:14px">Stock needs the updated server.js.</div>`;
   const rows = lowStock().slice(0, 8);
   if (!S.catalog.products.some(p => p.trackStock)) return `<div class="empty" style="padding:14px">Turn on stock counting under Stock to see what's running low.</div>`;
   return rows.length ? `<table class="mini">${rows.map(r => `<tr data-gostock="${r.p.id}"><td>${esc(r.p.name)}<br><span class="muted">${esc(r.m.name)} · ${esc(r.c.n)}</span></td><td style="text-align:right">${r.n === 0 ? '<span class="tag late">Sold out</span>' : `<b>${r.n}</b> left`}</td></tr>`).join('')}</table>`
@@ -635,6 +640,16 @@ function lowStock(){
     const n = (p.stock||{})[m.id+':'+c.id] || 0; if (n <= 2) rows.push({ p, m, c, n });
   })));
   return rows.sort((a,b) => a.n - b.n);
+}
+function outdated(){
+  return header('Products', '') + `<div class="card set wide" style="max-width:640px">
+    <b style="font-size:17px">The server running your site is an older version.</b>
+    <p style="margin:0">The dashboard was updated, but <code>server.js</code> wasn’t, so products, stock and iPhone models can’t load yet. Orders still work.</p>
+    <ol style="margin:0;padding-left:20px;display:grid;gap:6px">
+      <li>In your GitHub repo, replace <code>server.js</code> (it sits next to <code>package.json</code>, outside the <code>public</code> folder) with the one from the latest zip.</li>
+      <li>Commit. Railway redeploys in a minute or two.</li>
+      <li>Refresh this page.</li>
+    </ol></div>`;
 }
 async function reloadCatalog(){ const j = await call('GET', '/api/admin/catalog'); S.catalog = j.catalog; }
 
